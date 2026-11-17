@@ -75,7 +75,7 @@ export function analizar(mensaje, { avisos, reportes = [], prensa = [] }) {
 
 const TITULOS = {
   coincide: (a) => a.tipo === "advertencia"
-    ? `Se parece a mensajes sobre los que ${a.entidad} pidió comprobar (${fmtFecha(a.fecha)}).`
+    ? `Se parece a una alerta falsa ya conocida (${fmtFecha(a.fecha)}): comprueba en los canales oficiales.`
     : `Coincide con un aviso oficial de ${a.entidad} del ${fmtFecha(a.fecha)}.`,
   tema: (a) => `No encontré un aviso oficial igual. Sí hay uno de ${a.entidad} sobre un tema parecido.`,
   sin: () => "No encontré un aviso oficial que coincida.",
