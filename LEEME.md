@@ -32,6 +32,13 @@ Compartir (cada tarjeta y la ficha): WhatsApp (texto), imagen ligera, menú del 
 | `data/recopilado.json` | `node tools/recopilar.mjs` (consulta RSS público de Google Noticias, solo titular + medio + fecha + enlace). |
 | `data/vecinal.json` | Ejemplos de demostración. Los reportes reales del usuario se guardan en su dispositivo. |
 
+### Imágenes
+
+- **Vecinos:** al reportar se puede adjuntar una foto (opcional). Se reduce a JPEG de 640 px, se borra su ubicación GPS (EXIF) y se guarda solo en ese dispositivo.
+- **Prensa y ejemplos de vecinos:** copia el archivo a `data/img/` y añade al item `"imagen": "data/img/mi-foto.jpg"` y, si es de un medio, `"imagen_credito": "Diario Correo"`. También acepta una URL `https://`. Al volver a ejecutar `recopilar.mjs` se conservan las imágenes de los enlaces que sigan en la lista.
+- **Derechos:** las fotos de los medios tienen derechos de autor. Usa solo las que tengas autorizadas y pon siempre el crédito.
+- No se aceptan SVG, `http://` ni rutas fuera de `data/img/`.
+
 Después de cambiar archivos, sube `VERSION` en `service-worker.js` para que los celulares limpien la caché.
 
 ## Lo que es real y lo que es demostración

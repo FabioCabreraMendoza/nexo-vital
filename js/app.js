@@ -1,5 +1,5 @@
 // NubIA · NEXOVITAL — controlador principal (sin framework, sin backend).
-import { $, $$, h, icono, urlSegura, fmtFecha, fmtFechaHora, haceTiempo, almacen, avisar, hoyISO } from "./util.js";
+import { $, $$, h, icono, urlSegura, imagenSegura, reducirImagen, fmtFecha, fmtFechaHora, haceTiempo, almacen, avisar, hoyISO } from "./util.js";
 import { abrirCompartir } from "./compartir.js";
 import { analizar, pintarResultado, EJEMPLOS } from "./verificar.js";
 import { construirCorpus, Indice, responder, SUGERENCIAS } from "./rag.js";
@@ -202,6 +202,9 @@ function compartible(item) {
   };
 }
 
+// Imagen opcional de una tarjeta (primer hijo, como pide el patrón de tarjetas). Devuelve null si el origen no es seguro.
+const foto = (src, alt) => { const u = imagenSegura(src); return u ? h("img", { class: "media", src: u, alt, loading: "lazy", decoding: "async" }) : null; };
+
 function tarjeta(item) {
   if (item.kind === "oficial") {
     const a = item.a;
@@ -220,9 +223,10 @@ function tarjeta(item) {
     const p = item.p;
     const u = urlSegura(p.url);
     return h("article", { class: "card card-prensa", id: p.id },
+      foto(p.imagen, ""),
       h("div", { class: "card-cab" }, h("span", { class: "insignia", text: "Prensa" }), h("span", { class: "tiempo", text: `${fmtFecha(p.fecha)} · ${haceTiempo(item.ts)}` })),
       h("h3", { text: p.titulo }),
-      h("p", { class: "fuente" }, h("b", { text: p.fuente }), " · titular recopilado, no verificado por NubIA"),
+      h("p", { class: "fuente" }, h("b", { text: p.fuente }), " · titular recopilado, no verificado por NubIA", p.imagen && p.imagen_credito ? ` · Foto: ${p.imagen_credito}` : ""),
       h("div", { class: "card-pie" },
         u ? h("a", { class: "btn btn-sm", href: u, target: "_blank", rel: "noopener noreferrer" }, icono("out"), "Leer en el medio") : null,
         accionesTarjeta(item)),
@@ -237,6 +241,7 @@ function tarjeta(item) {
       onclick: () => votar(r.id, clave),
     }, h("span", { text: texto }), h("span", { class: "cuenta", text: `${clave === "sigue" ? v.sigue : v.ya_no} ${(clave === "sigue" ? v.sigue : v.ya_no) === 1 ? "vecino" : "vecinos"}` }));
   return h("article", { class: `card card-vecinal${viejo ? " antiguo" : ""}`, id: r.id },
+    foto(r.imagen, `Foto del reporte en ${r.zona}`),
     h("div", { class: "card-cab" },
       h("span", { class: "insignia", text: `Vecinos · ${TIPOS[r.tipo] ?? "Reporte"}` }),
       h("span", { class: "tiempo", text: haceTiempo(r.ts) })),
@@ -286,24 +291,46 @@ function iniciarReportar() {
       d.addEventListener("pointerup", (e) => { if (abajo && fuera(e)) d.close(); });
     }
   }
-  form.addEventListener("submit", (e) => {
+  // Foto opcional: vista previa y botón para quitarla.
+  const entrada = $("#rep-foto"), caja = $("#rep-foto-caja"), vista = $("#rep-foto-vista");
+  const quitarFoto = () => { entrada.value = ""; caja.hidden = true; };
+  vista.addEventListener("load", () => URL.revokeObjectURL(vista.src));
+  entrada.addEventListener("change", () => {
+    const f = entrada.files[0];
+    if (!f) return quitarFoto();
+    vista.src = URL.createObjectURL(f);
+    caja.hidden = false;
+  });
+  $("#rep-foto-quitar").addEventListener("click", quitarFoto);
+  form.addEventListener("reset", quitarFoto);
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const tipo = $("#rep-tipo").value, zona = $("#rep-zona").value.trim(), texto = $("#rep-texto").value.trim();
     let msg = "";
     if (zona.length < 3) msg = "Escribe el sector o la urbanización.";
     else if (texto.length < 8) msg = "Cuéntalo con un poco más de detalle (mínimo 8 letras).";
     else if (/\d[\d\s.-]{6,}\d|@|https?:\/\//i.test(texto + " " + zona)) msg = "Quita teléfonos, correos y enlaces. No pongas datos personales.";
+    let imagen;
+    if (!msg && entrada.files[0]) {
+      try { imagen = await reducirImagen(entrada.files[0]); } catch { msg = "No se pudo leer la foto. Prueba con otra o publica sin foto."; }
+    }
     if (msg) { err.textContent = msg; err.hidden = false; return; }
     const propios = almacen.get("reportes", []);
     const id = `r-${Date.now().toString(36)}`;
-    propios.unshift({ id, tipo, zona, texto, ts: Date.now(), sigue: 0, ya_no: 0 });
-    almacen.set("reportes", propios.slice(0, 30));
+    propios.unshift({ id, tipo, zona, texto, imagen, ts: Date.now(), sigue: 0, ya_no: 0 });
+    let sinFoto = false;
+    if (!almacen.set("reportes", propios.slice(0, 30))) { // sin espacio en el dispositivo: se guarda sin la foto
+      delete propios[0].imagen;
+      sinFoto = true;
+      almacen.set("reportes", propios.slice(0, 30));
+    }
     S.votos[id] = "sigue"; // quien reporta ya cuenta como un voto; no puede sumar otro
     almacen.set("votos", S.votos);
     form.reset();
     dlg.close();
     armarReportes(); reconstruirIndice(); S.filtro = "todo"; pintarFeed();
-    avisar("Reporte publicado en este dispositivo");
+    avisar(sinFoto ? "Publicado sin la foto: no hay espacio en este dispositivo" : "Reporte publicado en este dispositivo");
     window.scrollTo(0, 0);
   });
 }
