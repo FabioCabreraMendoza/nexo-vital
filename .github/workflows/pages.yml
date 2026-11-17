@@ -1,0 +1,51 @@
+# Publica la app en GitHub Pages con cada push a main.
+# Solo se publican los archivos de la app (no tools/, ni documentos del equipo).
+# Requiere: Settings → Pages → Source: "GitHub Actions".
+name: Publicar en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validar los datos (JSON)
+        run: |
+          for f in data/*.json manifest.webmanifest; do
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" && echo "OK $f"
+          done
+
+      - name: Armar el sitio con solo lo necesario
+        run: |
+          mkdir _site
+          cp -r index.html manifest.webmanifest service-worker.js css js icons data _site/
+          # Versión de caché = commit, para que los celulares recojan cada despliegue
+          sed -i "s/^const VERSION = .*/const VERSION = \"nexovital-${GITHUB_SHA::7}\";/" _site/service-worker.js
+          grep -n "^const VERSION" _site/service-worker.js
+          du -sh _site
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
