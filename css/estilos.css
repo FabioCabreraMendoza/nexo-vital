@@ -130,7 +130,7 @@
     background: linear-gradient(90deg, var(--morado) 0 25%, var(--azul) 0 50%, var(--verde) 0 75%, var(--amarillo) 0);
   }
   .brand { display: flex; align-items: center; gap: 0.65rem; min-inline-size: 0; }
-  .logo { inline-size: 2.5rem; block-size: 2.5rem; flex: none; }
+  .logo { block-size: 2.5rem; inline-size: auto; flex: none; }
   .brand-name { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.01em; line-height: 1.1; }
   .brand-sub { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.2; }
 

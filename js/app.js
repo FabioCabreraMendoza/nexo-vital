@@ -141,7 +141,6 @@ function pintarFicha() {
   $("#contactos-lista").replaceChildren(...f.contactos.map((c) =>
     h("li", {}, h("a", { class: "btn", style: "justify-content:flex-start;inline-size:100%", href: `tel:${c.numero}` },
       icono("phone"), h("span", {}, h("strong", { text: `${c.nombre}: ${c.numero}` }), h("br"), h("span", { class: "sub", text: c.nota }))))));
-  $("#todo-lista").replaceChildren(...f.todo.map((t) => h("li", { text: t })));
 }
 
 function textoFicha() {
