@@ -383,29 +383,29 @@ function iniciarChat() {
   form.addEventListener("submit", (e) => { e.preventDefault(); const q = input.value; input.value = ""; preguntar(q); });
 }
 
-/* ================= Tema: sistema / claro / oscuro ================= */
-// Estado en localStorage["color-scheme"] ("light" | "dark"; sin valor = sistema) y reflejado en la <meta color-scheme>.
+/* ================= Tema: botón claro / oscuro del encabezado ================= */
+// Sin valor guardado = sigue al sistema. Al pulsar se elige lo contrario de lo que se ve; si eso coincide
+// con el sistema se borra el valor (no se fija contra futuros cambios del sistema). Clave: localStorage["color-scheme"].
 function iniciarTema() {
   const meta = $('meta[name="color-scheme"]');
-  const radios = $$('input[name="tema"]');
+  const btn = $("#btn-tema");
   const oscuroSistema = matchMedia("(prefers-color-scheme: dark)");
-  const rotular = () => { $("#tema-sistema").textContent = `(ahora: ${oscuroSistema.matches ? "oscuro" : "claro"})`; };
-  const aplicar = (v) => {
-    meta.content = v ?? "light dark";
-    for (const r of radios) r.checked = r.value === (v ?? "sistema");
+  const sistema = () => (oscuroSistema.matches ? "dark" : "light");
+  const visible = () => (meta.content === "light dark" ? sistema() : meta.content);
+  const pintar = () => {
+    const oscuro = visible() === "dark";
+    btn.replaceChildren(icono(oscuro ? "sun" : "moon"));
+    btn.setAttribute("aria-label", oscuro ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
   };
-  let guardado = null;
-  try { guardado = localStorage.getItem("color-scheme"); } catch { /* sin almacenamiento: el tema sigue aplicándose */ }
-  aplicar(guardado);
-  rotular();
-  oscuroSistema.addEventListener("change", rotular);
-  for (const r of radios) {
-    r.addEventListener("change", () => {
-      const v = r.value === "sistema" ? null : r.value;
-      try { v ? localStorage.setItem("color-scheme", v) : localStorage.removeItem("color-scheme"); } catch { /* idem */ }
-      aplicar(v);
-    });
-  }
+  const aplicar = (v) => { meta.content = v ?? "light dark"; pintar(); };
+  try { aplicar(localStorage.getItem("color-scheme")); } catch { pintar(); /* sin almacenamiento: el tema igual se aplica */ }
+  oscuroSistema.addEventListener("change", pintar);
+  btn.addEventListener("click", () => {
+    const objetivo = visible() === "dark" ? "light" : "dark";
+    const v = objetivo === sistema() ? null : objetivo;
+    try { v ? localStorage.setItem("color-scheme", v) : localStorage.removeItem("color-scheme"); } catch { /* idem */ }
+    aplicar(v);
+  });
   addEventListener("storage", (e) => { if (e.key === "color-scheme") aplicar(e.newValue); });
 }
 

@@ -20,7 +20,7 @@ node tools/servir.mjs          # http://localhost:5173
 | Novedades | Tarjetas estilo Waze: **oficial** (resaltado), **prensa** (recopilada) y **vecinos** (botones “Sigue ahí” / “Ya no está” con contador). Botón *Reportar*. |
 | ¿Es oficial? | Compara un mensaje con avisos oficiales conocidos. Nunca dice “falso”: dice qué encontró, pistas a revisar y dónde comprobar. |
 | NubIA | Chat con RAG local (BM25) sobre todo lo recopilado. Cita fuente y fecha. Si no encuentra, lo dice. |
-| Fuentes | Enlaces oficiales, teléfonos, instalar app, apariencia, límites de la app. |
+| Fuentes | Enlaces oficiales, teléfonos, instalar app, límites de la app. |
 
 Compartir (cada tarjeta y la ficha): WhatsApp (texto), imagen ligera, menú del sistema y copiar.
 
