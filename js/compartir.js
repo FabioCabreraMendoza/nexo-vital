@@ -4,7 +4,7 @@ import { $, h, icono, avisar } from "./util.js";
 const PIE = "Informativo: no es una alerta oficial. Comprueba en INDECI (115) o en la Municipalidad de Trujillo.";
 
 /** Arma el texto a compartir. `item` = { titulo, cuerpo, fuente, fecha, url? } */
-export function armarTexto(item) {
+function armarTexto(item) {
   const lineas = [`*${item.titulo}*`];
   if (item.cuerpo) lineas.push(item.cuerpo);
   if (item.fuente) lineas.push(`Fuente: ${item.fuente}${item.fecha ? ` (${item.fecha})` : ""}`);
@@ -14,7 +14,7 @@ export function armarTexto(item) {
 }
 
 /** Dibuja una imagen ligera (PNG) con el contenido, pensada para WhatsApp. */
-export function crearImagen(item) {
+function crearImagen(item) {
   const W = 1080, P = 64;
   const c = document.createElement("canvas");
   c.width = W;
@@ -112,6 +112,7 @@ export function abrirCompartir(item) {
         } else {
           const enlace = h("a", { href: URL.createObjectURL(blob), download: "nubia.png" });
           document.body.append(enlace); enlace.click(); enlace.remove();
+          setTimeout(() => URL.revokeObjectURL(enlace.href), 10000);
           estado.textContent = "Imagen descargada. Adjúntala en WhatsApp.";
         }
       } catch (e) {

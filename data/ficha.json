@@ -14,7 +14,7 @@
     "TODO: la fecha de vencimiento (7 días) es una propuesta; el equipo define cada cuánto se actualiza.",
     "TODO: confirmar fecha y fuente exacta de cada cifra de obras antes de la presentación.",
     "TODO: confirmar números de emergencia vigentes y teléfono de Defensa Civil de la MPT.",
-    "TODO: confirmar que los enlaces oficiales abren la página correcta."
+    "TODO: confirmar que los enlaces oficiales abren la página correcta. ENFEN: www.enfen.gob.pe no responde; mientras tanto se enlaza el archivo de comunicados del IGP."
   ],
   "bloques": {
     "funciona": [
@@ -165,7 +165,7 @@
       "fuentes": [{ "nombre": "Contraloría (vía El Comercio)", "fecha": "sin información" }]
     },
     {
-      "id": "o-ribereñas",
+      "id": "o-riberenas",
       "componente": "Defensas ribereñas de San Carlos (un componente)",
       "estado": "En construcción",
       "detalle": "90,75% acumulado, sin cambio desde enero de 2026. No se aplicó el plan de protección de obras.",
@@ -202,7 +202,7 @@
       "fecha": "2026-10-31",
       "alcance": "Costa norte. Es una condición general, no un aviso de huaico.",
       "claves": ["enfen", "niño", "nino", "costero", "magnitud extraordinaria", "alerta de el niño", "fenomeno el niño", "febrero 2027", "enero 2027"],
-      "url": "https://www.enfen.gob.pe"
+      "url": "https://repositorio.igp.gob.pe"
     },
     {
       "id": "a-senamhi-rojo",
@@ -259,11 +259,11 @@
   "fuentes_oficiales": [
     { "id": "s-indeci", "nombre": "INDECI", "descripcion": "Defensa Civil nacional. Decide las alertas oficiales.", "url": "https://www.gob.pe/indeci" },
     { "id": "s-senamhi", "nombre": "SENAMHI", "descripcion": "Pronóstico del tiempo y avisos meteorológicos.", "url": "https://www.senamhi.gob.pe" },
-    { "id": "s-enfen", "nombre": "ENFEN", "descripcion": "Comunicados oficiales sobre El Niño costero.", "url": "https://www.enfen.gob.pe" },
+    { "id": "s-enfen", "nombre": "ENFEN", "descripcion": "Comité que emite los comunicados oficiales sobre El Niño costero. Archivo de comunicados en el repositorio del IGP.", "url": "https://repositorio.igp.gob.pe" },
     { "id": "s-mpt", "nombre": "Municipalidad Provincial de Trujillo", "descripcion": "Defensa Civil municipal y avisos locales.", "url": "https://www.munitrujillo.gob.pe" },
     { "id": "s-anin", "nombre": "ANIN", "descripcion": "Autoridad que ejecuta las obras de las quebradas.", "url": "https://www.gob.pe/anin" },
     { "id": "s-ingemmet", "nombre": "INGEMMET", "descripcion": "Estudios de peligros geológicos, como huaicos.", "url": "https://www.gob.pe/ingemmet" },
-    { "id": "s-contraloria", "nombre": "Contraloría", "descripcion": "Informes sobre el avance de las obras.", "url": "https://www.contraloria.gob.pe" }
+    { "id": "s-contraloria", "nombre": "Contraloría", "descripcion": "Informes sobre el avance de las obras.", "url": "https://www.gob.pe/contraloria" }
   ],
   "contactos": [
     { "nombre": "INDECI", "numero": "115", "nota": "Central de emergencias. TODO: confirmar." },

@@ -172,6 +172,11 @@ export function responder(pregunta, indice, { ficha, recopilado }) {
   const n = norm(pregunta);
   const contactos = ficha?.contactos ?? [];
   const telefonos = contactos.map((c) => `${c.nombre} ${c.numero}`).join(", ");
+  // Enlaces oficiales: se leen de data/ficha.json para no repetir las URL aquí.
+  const enlace = (id, label) => {
+    const f = ficha?.fuentes_oficiales.find((x) => x.id === id);
+    return f && { label, url: f.url };
+  };
 
   if (/\b(auxilio|socorro|ayuda|atrapad|herid|me estoy inundando|se esta inundando|se inunda)\b/.test(n)) {
     return {
@@ -198,7 +203,7 @@ export function responder(pregunta, indice, { ficha, recopilado }) {
       intro: "No puedo decirte si estás a salvo ni predecir cuándo lloverá: ni NubIA ni una obra en construcción pueden asegurarlo. Esto es lo que sí consta en las fuentes:",
       puntos: riesgo.map((d) => ({ texto: recorta(d.mostrar), tipo: ETIQUETA_KIND[d.kind], cita: cita(d) })),
       extra: ["Confirma tu punto seguro y tu ruta de salida con Defensa Civil de la Municipalidad. Para el tiempo, mira SENAMHI; para alertas, INDECI."],
-      acciones: [{ label: "SENAMHI", url: "https://www.senamhi.gob.pe" }, { label: "INDECI", url: "https://www.gob.pe/indeci" }],
+      acciones: [enlace("s-senamhi", "SENAMHI"), enlace("s-indeci", "INDECI")].filter(Boolean),
       pie: pieFecha(recopilado),
     };
   }
@@ -231,7 +236,7 @@ export function responder(pregunta, indice, { ficha, recopilado }) {
         : "No encontré eso en lo que tengo recopilado, y no voy a inventar una respuesta.",
       puntos: [],
       extra: verifica ? [] : ["Prueba con otras palabras, o consulta directamente las fuentes oficiales."],
-      acciones: [...acciones, { label: "INDECI", url: "https://www.gob.pe/indeci" }, { label: "Municipalidad de Trujillo", url: "https://www.munitrujillo.gob.pe" }],
+      acciones: [...acciones, enlace("s-indeci", "INDECI"), enlace("s-mpt", "Municipalidad de Trujillo")].filter(Boolean),
       pie: pieFecha(recopilado),
     };
   }

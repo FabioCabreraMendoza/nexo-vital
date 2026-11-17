@@ -18,6 +18,8 @@ const TIPOS = {
 createServer(async (req, res) => {
   try {
     let ruta = decodeURIComponent(new URL(req.url, "http://x").pathname);
+    // Escucha en toda la red (para el celular): nunca sirvas .git, .claude ni otros archivos ocultos.
+    if (ruta.split("/").some((parte) => parte.startsWith("."))) { res.writeHead(403).end(); return; }
     if (ruta.endsWith("/")) ruta += "index.html";
     const archivo = join(RAIZ, normalize(ruta));
     if (!archivo.startsWith(RAIZ)) { res.writeHead(403).end(); return; }
