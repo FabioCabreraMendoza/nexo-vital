@@ -10,7 +10,7 @@
 // No hace scraping de Facebook ni de grupos privados: requiere sesión, incumple sus
 // términos y expone datos personales. Los reportes vecinales se crean dentro de la app.
 
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -85,10 +85,14 @@ for (const q of CONSULTAS) {
   }
 }
 
+// Las imágenes se ponen a mano en data/recopilado.json (campos imagen e imagen_credito) y se conservan si el enlace sigue en la lista.
+const previo = await readFile(SALIDA, "utf8").then(JSON.parse).catch(() => ({ items: [] }));
+const manuales = new Map(previo.items.filter((i) => i.imagen).map((i) => [i.url, { imagen: i.imagen, imagen_credito: i.imagen_credito }]));
+
 const items = [...vistos.values()]
   .sort((a, b) => b.fecha.localeCompare(a.fecha))
   .slice(0, MAX_ITEMS)
-  .map((n, i) => ({ id: `prensa-${i + 1}`, ...n }));
+  .map((n, i) => ({ id: `prensa-${i + 1}`, ...n, ...manuales.get(n.url) }));
 
 const paquete = {
   generadoEn: new Date().toISOString(),

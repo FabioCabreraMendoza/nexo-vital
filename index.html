@@ -203,6 +203,13 @@
       <label for="rep-texto" class="etiqueta">Cuéntalo en una frase</label>
       <textarea id="rep-texto" rows="3" maxlength="200" required placeholder="Ej.: Lluvia fuerte en la manzana A"></textarea>
       <p class="ayuda">No pongas nombres, teléfonos ni correos. Máximo 200 letras.</p>
+      <label for="rep-foto" class="etiqueta">Foto (opcional)</label>
+      <input id="rep-foto" type="file" accept="image/*">
+      <div id="rep-foto-caja" hidden>
+        <img id="rep-foto-vista" class="media" alt="Vista previa de tu foto">
+        <button type="button" class="btn btn-sm" id="rep-foto-quitar">Quitar foto</button>
+      </div>
+      <p class="ayuda">No incluyas personas ni placas de vehículos. La foto se reduce y se guarda solo en tu dispositivo.</p>
       <p id="err-reportar" class="error" role="alert" hidden></p>
       <div class="acciones-fila">
         <button type="submit" class="btn btn-primario" value="ok">Publicar reporte</button>

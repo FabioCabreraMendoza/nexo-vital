@@ -275,6 +275,13 @@
     background: var(--surface); border: 1px solid var(--line);
   }
   .card-cab { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+  .media { display: block; inline-size: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 0.6rem; background: var(--surface-2); }
+  #rep-foto-vista { max-block-size: 12rem; margin-block: 0.5rem; }
+  input[type="file"] { inline-size: 100%; min-block-size: var(--target); }
+  input[type="file"]::file-selector-button {
+    min-block-size: 2.5rem; margin-inline-end: 0.75rem; padding-inline: 0.9rem; border: 1.5px solid var(--line-strong);
+    border-radius: 0.6rem; background: var(--surface-2); color: var(--ink); font: inherit; font-weight: 650; cursor: pointer;
+  }
   .card h3 { font-size: 1.05rem; }
   .card p { font-size: 1rem; }
   .card-pie { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-block-start: 0.2rem; }

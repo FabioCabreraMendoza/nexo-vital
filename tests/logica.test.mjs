@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { analizar, EJEMPLOS } from "../js/verificar.js";
 import { construirCorpus, Indice, responder } from "../js/rag.js";
+import { imagenSegura } from "../js/util.js";
 
 const datos = (n) => JSON.parse(readFileSync(new URL(`../data/${n}.json`, import.meta.url), "utf8"));
 const ficha = datos("ficha");
@@ -63,4 +64,11 @@ test("NubIA: toda respuesta con datos cita fuente y fecha", () => {
   const r = preguntar("¿Qué falta en San Ildefonso?");
   assert.ok(r.puntos.length > 0);
   assert.ok(r.puntos.every((p) => p.cita.label.includes("·")), textoDe(r.puntos));
+});
+
+test("imágenes: solo JPEG en base64, data/img/ y https; rechaza SVG, HTML, javascript:, http y rutas con ..", () => {
+  const ok = ["data:image/jpeg;base64,/9j/4AAQ==", "data/img/foto-1.jpg", "https://ejemplo.pe/a.jpg"];
+  const no = ["data:image/svg+xml;base64,PHN2Zz4=", "data:text/html;base64,PGI+", "javascript:alert(1)", "http://ejemplo.pe/a.jpg", "data/img/../ficha.json", "icons/logo.png", "", null];
+  for (const s of ok) assert.ok(imagenSegura(s), s);
+  for (const s of no) assert.equal(imagenSegura(s), null, String(s));
 });

@@ -36,11 +36,33 @@ export function icono(nombre) {
 /** Solo permite enlaces http(s). Los datos recopilados son contenido de terceros. */
 export function urlSegura(u) {
   try {
-    const url = new URL(u, location.href);
+    const url = new URL(u, globalThis.location?.href);
     return url.protocol === "https:" || url.protocol === "http:" ? url.href : null;
   } catch {
     return null;
   }
+}
+
+/** Solo imágenes que la app puede haber creado o que vienen de sus datos: JPEG en base64, data/img/ o https. */
+export function imagenSegura(src) {
+  if (typeof src !== "string") return null;
+  if (/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(src) || /^data\/img\/[\w.-]+$/.test(src)) return src;
+  return src.startsWith("https://") ? urlSegura(src) : null;
+}
+
+/** Reduce una foto del usuario a JPEG de hasta 640 px. Al re-codificar se pierde el EXIF (ubicación GPS, modelo del celular). */
+export async function reducirImagen(archivo, max = 640, calidad = 0.7) {
+  const bmp = await createImageBitmap(archivo, { imageOrientation: "from-image" });
+  const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * k);
+  c.height = Math.round(bmp.height * k);
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#fff"; // un PNG transparente no debe quedar negro
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(bmp, 0, 0, c.width, c.height);
+  bmp.close();
+  return c.toDataURL("image/jpeg", calidad);
 }
 
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
