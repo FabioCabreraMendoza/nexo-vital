@@ -1,5 +1,5 @@
 {
-  "version": "0.1-borrador",
+  "version": "0.2-borrador",
   "actualizado": "2026-11-17",
   "vence": "2026-11-24",
   "territorio": "Quebradas San Ildefonso y San Carlos (El Porvenir, Trujillo)",
@@ -11,6 +11,8 @@
   ],
   "todo": [
     "TODO: decidir territorio piloto (El Porvenir completo o Mampuesto y Río Seco).",
+    "TODO: confirmar con ANIN el estado actual del río Moche y la fecha de cierre de las obras (octubre o diciembre).",
+    "TODO: confirmar la población de 109.893 habitantes en las tablas distritales del INEI (Censos 2025).",
     "TODO: la fecha de vencimiento (7 días) es una propuesta; el equipo define cada cuánto se actualiza.",
     "TODO: confirmar fecha y fuente exacta de cada cifra de obras antes de la presentación.",
     "TODO: confirmar números de emergencia vigentes y teléfono de Defensa Civil de la MPT.",
@@ -20,8 +22,8 @@
     "funciona": [
       {
         "id": "f-diques",
-        "texto": "Los 36 diques de San Ildefonso y los 25 de San Carlos figuran como terminados.",
-        "fuentes": [{ "nombre": "Contraloría (vía El Comercio)", "fecha": "sin información" }],
+        "texto": "Se reportan terminados 35 diques en San Ildefonso y 26 en San Carlos (61 en total).",
+        "fuentes": [{ "nombre": "ANIN (vía Diario Correo)", "fecha": "2025-01-27" }, { "nombre": "Gobierno Regional (vía Macronorte)", "fecha": "2026-10-22" }],
         "alcance": "Solo los diques. Otras partes de la obra siguen en construcción."
       },
       {
@@ -40,24 +42,24 @@
     "falta": [
       {
         "id": "x-ildefonso",
-        "texto": "La obra de San Ildefonso tiene un avance de 79,84%. Otras fuentes dicen 79% y 81%.",
+        "texto": "La obra de San Ildefonso tiene un avance de 79,84% (ANIN). SOLTV reporta 78,82%. El conjunto con San Carlos y el río Moche se reporta en 89%.",
         "fuentes": [
           { "nombre": "ANIN (vía Macronorte)", "fecha": "2026-10-20" },
-          { "nombre": "Otras fuentes de prensa", "fecha": "sin información" }
+          { "nombre": "SOLTV y Gobierno Regional (vía Macronorte)", "fecha": "2026-10" }
         ],
-        "alcance": "Avance físico de la obra. No mide cuánta protección da hoy."
+        "alcance": "Avance físico, no mide cuánta protección da hoy. Meta de cierre: octubre según el vicegobernador regional; diciembre según otro reporte."
       },
       {
         "id": "x-tunel",
-        "texto": "Falta completar el túnel de 1,5 km que llevará el agua hacia el río Moche.",
-        "fuentes": [{ "nombre": "Diario Correo", "fecha": "sin información" }],
-        "alcance": "Es un componente clave de San Ildefonso."
+        "texto": "El túnel de derivación ya está construido, pero el sistema completo aún no se probó con lluvias: según el vicegobernador regional, hasta ahora solo se modeló en computadora.",
+        "fuentes": [{ "nombre": "ANIN (vía Diario Correo)", "fecha": "2025-01-27" }, { "nombre": "Gobierno Regional (vía Macronorte)", "fecha": "2026-10-22" }],
+        "alcance": "Quedan otros componentes por terminar, como el encauzamiento del río Moche (17,2 km pendientes en enero de 2025; sin dato actualizado)."
       },
       {
         "id": "x-carlos",
-        "texto": "La obra de San Carlos tiene un avance aproximado de 69% a 70%.",
-        "fuentes": [{ "nombre": "ANIN y prensa", "fecha": "2026-11" }],
-        "alcance": "Cifra aproximada. TODO: confirmar fuente y fecha exactas."
+        "texto": "La obra de San Carlos tiene un avance de 69,52% (SOLTV, 16 de octubre).",
+        "fuentes": [{ "nombre": "SOLTV", "fecha": "2026-10-16" }],
+        "alcance": "Cifra de prensa. TODO: confirmar con ANIN."
       },
       {
         "id": "x-contraloria",
@@ -75,29 +77,26 @@
     "riesgo": [
       {
         "id": "r-avance",
-        "texto": "Que una obra avance no quiere decir que el riesgo ya pasó. Estudios sobre obras de contención muestran que la gente puede prepararse menos cuando cree que la obra la cuida.",
-        "fuentes": [{ "nombre": "Revisión de 94 estudios (Springer)", "fecha": "sin información" }],
+        "texto": "Que una obra avance no quiere decir que el riesgo ya pasó. Una revisión de 56 estudios halló el «efecto dique» en casi 7 de cada 10: más construcción en zonas con obras, menos preparación o mayores pérdidas en eventos extremos.",
+        "fuentes": [{ "nombre": "Revisión sistemática de 56 estudios (Fusinato et al., EGU 2026)", "fecha": "2026" }],
         "alcance": "Idea general, no es un dato de El Porvenir."
       },
       {
         "id": "r-cauce",
-        "texto": "Siguen arrojando desmonte y basura en el cauce de San Ildefonso. Eso puede estorbar el paso del agua.",
-        "fuentes": [{ "nombre": "Defensa Civil (vía Canal N)", "fecha": "sin información" }],
-        "alcance": "Advertencia de Defensa Civil."
+        "texto": "Se rellenó parte del cauce de San Ildefonso con desmonte y basura. Eso puede estorbar el paso del agua.",
+        "fuentes": [{ "nombre": "Defensa Civil del Gobierno Regional (vía Correo y Canal N)", "fecha": "2025-12" }],
+        "alcance": "Hubo limpieza con maquinaria en enero de 2026. No hay nota de 2026 sobre el estado actual."
       },
       {
         "id": "r-2017",
-        "texto": "En 2017 hubo 7 huaicos en San Ildefonso entre febrero y marzo. El dique colapsó el 15 de marzo y el agua pasó por calles de Trujillo.",
-        "fuentes": [{ "nombre": "INGEMMET", "fecha": "2017-03-15" }],
+        "texto": "El 15 de marzo de 2017 colapsó el dique de San Ildefonso: fue el primero de siete huaicos ese año y dejó 17.965 damnificados y 3.857 viviendas colapsadas.",
+        "fuentes": [{ "nombre": "La República (cita a Defensa Civil del Gobierno Regional)", "fecha": "2017-03-15" }],
         "alcance": "Hecho pasado. Muestra lo que puede pasar."
       },
       {
         "id": "r-enfen",
-        "texto": "ENFEN mantiene una alerta de El Niño de magnitud extraordinaria. Una fuente dice hasta enero de 2027 y otras, hasta febrero de 2027.",
-        "fuentes": [
-          { "nombre": "ENFEN (vía El Búho)", "fecha": "sin información" },
-          { "nombre": "Perú21 y Expreso", "fecha": "2026-10-31" }
-        ],
+        "texto": "ENFEN mantiene la magnitud extraordinaria del Niño costero hasta febrero de 2027. La prensa indica que el evento podría llegar hasta mediados de 2027.",
+        "fuentes": [{ "nombre": "ENFEN, Comunicado Oficial 20-2026 (vía Gestión y Panamericana)", "fecha": "2026-11-13" }],
         "alcance": "Alerta para la costa norte. No dice cuándo ni dónde lloverá."
       },
       {
@@ -133,36 +132,36 @@
       "id": "o-ildefonso",
       "componente": "Quebrada San Ildefonso (conjunto)",
       "estado": "En construcción",
-      "detalle": "79,84% según ANIN. Otras fuentes: 79% y 81%.",
+      "detalle": "79,84% según ANIN. SOLTV: 78,82%. El conjunto con San Carlos y el río Moche: 89% (Gobierno Regional).",
       "fuentes": [{ "nombre": "ANIN (vía Macronorte)", "fecha": "2026-10-20" }]
     },
     {
       "id": "o-diques-ildefonso",
-      "componente": "36 diques de San Ildefonso",
+      "componente": "35 diques de San Ildefonso",
       "estado": "Terminado según la fuente",
       "detalle": "Terminado no quiere decir que el riesgo desapareció.",
-      "fuentes": [{ "nombre": "Contraloría (vía El Comercio)", "fecha": "sin información" }]
+      "fuentes": [{ "nombre": "ANIN (vía Diario Correo)", "fecha": "2025-01-27" }, { "nombre": "Gobierno Regional (vía Macronorte)", "fecha": "2026-10-22" }]
     },
     {
       "id": "o-tunel",
-      "componente": "Túnel de trasvase al río Moche (1,5 km)",
-      "estado": "Falta completar",
-      "detalle": "Componente clave de San Ildefonso.",
-      "fuentes": [{ "nombre": "Diario Correo", "fecha": "sin información" }]
+      "componente": "Túnel de derivación San Ildefonso–San Carlos (~1,5 km)",
+      "estado": "Terminado según la fuente",
+      "detalle": "ANIN reportó su conexión en enero de 2025 y en octubre de 2026 se pide retirar sus rejas. Falta probarlo con lluvias.",
+      "fuentes": [{ "nombre": "ANIN (vía Diario Correo)", "fecha": "2025-01-27" }, { "nombre": "Gobierno Regional (vía Macronorte)", "fecha": "2026-10-22" }]
     },
     {
       "id": "o-carlos",
       "componente": "Quebrada San Carlos (conjunto)",
       "estado": "En construcción",
-      "detalle": "Entre 69% y 70% de avance (aproximado).",
-      "fuentes": [{ "nombre": "ANIN y prensa", "fecha": "2026-11" }]
+      "detalle": "69,52% según SOLTV (16-oct-2026).",
+      "fuentes": [{ "nombre": "SOLTV", "fecha": "2026-10-16" }]
     },
     {
       "id": "o-diques-carlos",
-      "componente": "25 diques de San Carlos",
+      "componente": "26 diques de San Carlos",
       "estado": "Terminado según la fuente",
       "detalle": "Terminado no quiere decir que el riesgo desapareció.",
-      "fuentes": [{ "nombre": "Contraloría (vía El Comercio)", "fecha": "sin información" }]
+      "fuentes": [{ "nombre": "ANIN (vía Diario Correo)", "fecha": "2025-01-27" }, { "nombre": "Gobierno Regional (vía Macronorte)", "fecha": "2026-10-22" }]
     },
     {
       "id": "o-riberenas",
@@ -187,10 +186,10 @@
     },
     {
       "id": "o-moche",
-      "componente": "Río Moche (cauce receptor del túnel)",
-      "estado": "Sin información",
-      "detalle": "No se encontró información sobre su estado actual.",
-      "fuentes": [{ "nombre": "Búsqueda del equipo", "fecha": "2026-11-17" }]
+      "componente": "Río Moche (encauzamiento, 17,2 km)",
+      "estado": "En construcción",
+      "detalle": "17,2 km pendientes en enero de 2025 (ANIN). En octubre de 2026 el conjunto con San Ildefonso y San Carlos figura en 89%.",
+      "fuentes": [{ "nombre": "ANIN (vía Diario Correo)", "fecha": "2025-01-27" }, { "nombre": "Gobierno Regional (vía Macronorte)", "fecha": "2026-10-22" }]
     }
   ],
   "avisos_oficiales": [
@@ -198,8 +197,8 @@
       "id": "a-enfen",
       "entidad": "ENFEN",
       "titulo": "Alerta de El Niño costero de magnitud extraordinaria",
-      "resumen": "ENFEN mantiene la alerta de El Niño costero con magnitud extraordinaria. Las fuentes de prensa dicen que seguiría hasta febrero de 2027.",
-      "fecha": "2026-10-31",
+      "resumen": "ENFEN (Comunicado 20-2026) mantiene la magnitud extraordinaria del Niño costero hasta febrero de 2027. La prensa indica que el evento podría llegar hasta inicios del invierno de 2027.",
+      "fecha": "2026-11-13",
       "alcance": "Costa norte. Es una condición general, no un aviso de huaico.",
       "claves": ["enfen", "niño", "nino", "costero", "magnitud extraordinaria", "alerta de el niño", "fenomeno el niño", "febrero 2027", "enero 2027"],
       "url": "https://repositorio.igp.gob.pe"
@@ -227,9 +226,9 @@
     {
       "id": "a-mensajes-sismate",
       "tipo": "advertencia",
-      "entidad": "INDECI",
-      "titulo": "Circularon mensajes que imitaban al SISMATE",
-      "resumen": "El 20 de mayo de 2026 circularon mensajes con apariencia del SISMATE sobre temas electorales, un sismo y un tsunami. INDECI pidió comprobar con canales oficiales.",
+      "entidad": "MTC / INDECI",
+      "titulo": "Alerta falsa de tsunami con formato oficial (20 de mayo de 2026)",
+      "resumen": "El 20 de mayo de 2026, entre las 19:30 y las 20:00, llegó a celulares una alerta falsa de tsunami por un sismo de 8,7. El MTC confirmó acceso no autorizado al sistema. Algunos mensajes hablaban de «fraude electoral».",
       "fecha": "2026-05-20",
       "alcance": "Hecho nacional de mayo de 2026. No trata de huaicos.",
       "claves": ["sismate", "tsunami", "sismo", "fraude", "electoral"],
@@ -239,8 +238,8 @@
       "id": "a-cauce",
       "entidad": "Defensa Civil",
       "titulo": "Advertencia por desmonte y basura en el cauce de San Ildefonso",
-      "resumen": "Defensa Civil advierte que siguen arrojando desmonte y basura en el cauce de la quebrada San Ildefonso.",
-      "fecha": "sin información",
+      "resumen": "Defensa Civil del Gobierno Regional informó en diciembre de 2025 que invasores rellenaron el cauce con desmonte: debían retirarse 11 toneladas en más de 200 m, de más de 500 m por liberar.",
+      "fecha": "2025-12",
       "alcance": "Quebrada San Ildefonso.",
       "claves": ["san ildefonso", "desmonte", "basura", "cauce", "quebrada", "defensa civil", "residuos"],
       "url": "https://www.munitrujillo.gob.pe"
