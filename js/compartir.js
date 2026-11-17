@@ -44,7 +44,7 @@ function crearImagen(item) {
   c.height = Math.max(alto, 540);
 
   ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, c.height);
-  ctx.fillStyle = "#0e4a73"; ctx.fillRect(0, 0, W, 110);
+  ctx.fillStyle = "#562EC6"; ctx.fillRect(0, 0, W, 110);
   ctx.fillStyle = "#ffffff"; ctx.font = `800 44px ${fam}`; ctx.textBaseline = "alphabetic";
   ctx.fillText("NubIA · NEXOVITAL", P, 72);
 
@@ -53,14 +53,14 @@ function crearImagen(item) {
     ctx.font = fuenteTxt; ctx.fillStyle = color;
     for (const l of lineas) { y += paso; ctx.fillText(l, P, y); }
   };
-  pintar(titulo, fTitulo, "#10263a", 70);
+  pintar(titulo, fTitulo, "#231B3D", 70);
   y += 30;
-  pintar(cuerpo, fCuerpo, "#1d3347", 56);
+  pintar(cuerpo, fCuerpo, "#231B3D", 56);
   y += 40;
-  pintar(fuente, fFuente, "#0e4a73", 44);
+  pintar(fuente, fFuente, "#562EC6", 44);
   y += 50;
-  ctx.fillStyle = "#e8eef4"; ctx.fillRect(P, y - 26, W - 2 * P, 3);
-  pintar(pie, fPie, "#4b5d6e", 38);
+  ctx.fillStyle = "#ECE8F7"; ctx.fillRect(P, y - 26, W - 2 * P, 3);
+  pintar(pie, fPie, "#4D4072", 38);
 
   return new Promise((ok) => c.toBlob(ok, "image/png"));
 }

@@ -384,6 +384,32 @@ function iniciarChat() {
   form.addEventListener("submit", (e) => { e.preventDefault(); const q = input.value; input.value = ""; preguntar(q); });
 }
 
+/* ================= Tema: sistema / claro / oscuro ================= */
+// Estado en localStorage["color-scheme"] ("light" | "dark"; sin valor = sistema) y reflejado en la <meta color-scheme>.
+function iniciarTema() {
+  const meta = $('meta[name="color-scheme"]');
+  const radios = $$('input[name="tema"]');
+  const oscuroSistema = matchMedia("(prefers-color-scheme: dark)");
+  const rotular = () => { $("#tema-sistema").textContent = `(ahora: ${oscuroSistema.matches ? "oscuro" : "claro"})`; };
+  const aplicar = (v) => {
+    meta.content = v ?? "light dark";
+    for (const r of radios) r.checked = r.value === (v ?? "sistema");
+  };
+  let guardado = null;
+  try { guardado = localStorage.getItem("color-scheme"); } catch { /* sin almacenamiento: el tema sigue aplicándose */ }
+  aplicar(guardado);
+  rotular();
+  oscuroSistema.addEventListener("change", rotular);
+  for (const r of radios) {
+    r.addEventListener("change", () => {
+      const v = r.value === "sistema" ? null : r.value;
+      try { v ? localStorage.setItem("color-scheme", v) : localStorage.removeItem("color-scheme"); } catch { /* idem */ }
+      aplicar(v);
+    });
+  }
+  addEventListener("storage", (e) => { if (e.key === "color-scheme") aplicar(e.newValue); });
+}
+
 /* ================= Red, instalación, sin conexión ================= */
 function iniciarRed() {
   const chip = $("#estado-red"), banner = $("#banner-offline");
@@ -439,6 +465,7 @@ async function iniciar() {
   iniciarReportar();
   iniciarVerificar();
   iniciarChat();
+  iniciarTema();
   iniciarRed();
 
   for (const b of $$("#filtros .chip-btn")) b.addEventListener("click", () => { S.filtro = b.dataset.f; pintarFeed(); });
