@@ -1,0 +1,10 @@
+{
+  "name": "nexo-vital",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node tools/servir.mjs",
+    "recopilar": "node tools/recopilar.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

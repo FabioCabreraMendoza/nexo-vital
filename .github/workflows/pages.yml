@@ -32,6 +32,9 @@ jobs:
             node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" && echo "OK $f"
           done
 
+      - name: Pruebas (verificador, NubIA y reglas de contenido)
+        run: node --test tests/*.test.mjs
+
       - name: Armar el sitio con solo lo necesario
         run: |
           mkdir _site
