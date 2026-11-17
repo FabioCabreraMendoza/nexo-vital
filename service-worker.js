@@ -6,7 +6,7 @@ const VERSION = "nexovital-v2";
 const CASCARON = [
   "./", "index.html", "manifest.webmanifest", "css/estilos.css",
   "js/app.js", "js/util.js", "js/compartir.js", "js/verificar.js", "js/rag.js", "js/texto.js",
-  "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png",
+  "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/mascota.png",
   "data/ficha.json", "data/recopilado.json", "data/vecinal.json",
 ];
 const LIMITE_RED_MS = 3000;
