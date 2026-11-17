@@ -61,7 +61,7 @@
       --ojo-bg: var(--ojo-bg-d); --ojo-line: var(--ojo-line-d); --vecinal-bg: var(--vecinal-bg-d); --focus: var(--focus-d);
     }
   }
-  /* Con light-dark(): sigue color-scheme, que el selector de tema puede fijar. */
+  /* Con light-dark(): sigue color-scheme, que el botón de tema puede fijar. */
   @supports (color: light-dark(white, black)) {
     :root {
       --bg: light-dark(var(--bg-l), var(--bg-d)); --surface: light-dark(var(--surface-l), var(--surface-d));
@@ -74,7 +74,7 @@
       --vecinal-bg: light-dark(var(--vecinal-bg-l), var(--vecinal-bg-d)); --focus: light-dark(var(--focus-l), var(--focus-d));
     }
   }
-  /* Selector de tema (Fuentes → Apariencia): la <meta name="color-scheme"> manda sobre el sistema. */
+  /* Botón de tema (encabezado): la <meta name="color-scheme"> manda sobre el sistema. */
   :root:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
   :root:has(> head > meta[name="color-scheme"][content="light"]) { color-scheme: light; }
 
@@ -128,6 +128,10 @@
   .app-header::after { /* franja con los cinco colores de la marca */
     content: ""; position: absolute; inset-inline: 0; inset-block-end: -4px; block-size: 4px;
     background: linear-gradient(90deg, var(--morado) 0 25%, var(--azul) 0 50%, var(--verde) 0 75%, var(--amarillo) 0);
+  }
+  .cab-acciones { display: flex; align-items: center; gap: 0.4rem; flex: none; }
+  @media (max-width: 20.5rem) { /* 320 px: el estado queda como ícono; el texto sigue para lectores de pantalla */
+    #estado-red span { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   }
   .brand { display: flex; align-items: center; gap: 0.65rem; min-inline-size: 0; }
   .logo { block-size: 2.5rem; inline-size: auto; flex: none; }
@@ -323,16 +327,6 @@
   .nubia-cab .sub { margin-block-start: 0.3rem; }
   .mascota { inline-size: 6.25rem; block-size: auto; flex: none; filter: drop-shadow(0 2px 6px rgb(35 27 61 / 0.25)); }
 
-  /* ---- selector de tema ---- */
-  .tema { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .tema legend { padding: 0; margin-block-end: 0.5rem; font-weight: 650; }
-  .tema label {
-    display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: var(--target); padding: 0.4rem 0.9rem;
-    border: 1.5px solid var(--line-strong); border-radius: 99rem; background: var(--surface); cursor: pointer; font-weight: 600;
-  }
-  .tema label:has(input:checked) { background: var(--brand-solid); border-color: var(--brand-solid); color: var(--on-brand); }
-  .tema label:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
-  .tema input { accent-color: var(--verde); inline-size: 1.1rem; block-size: 1.1rem; margin: 0; }
   .msg-bot .pie { font-size: 0.82rem; color: var(--ink-soft); }
   .citas { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .cita {
