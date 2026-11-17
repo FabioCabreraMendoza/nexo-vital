@@ -35,12 +35,14 @@ function reconstruirIndice() {
 }
 
 /* ================= Navegación ================= */
+let anclaPendiente = null; // tarjeta a resaltar cuando la pestaña ya sea visible
+
 function irA(tab, ancla) {
   if (!TABS.includes(tab)) tab = "inicio";
-  const destino = `#${tab}`;
-  if (location.hash !== destino) location.hash = destino;
+  anclaPendiente = ancla ?? null;
+  if (ancla && tab === "novedades" && S.filtro !== "todo") { S.filtro = "todo"; pintarFeed(); }
+  if (location.hash !== `#${tab}`) location.hash = tab;
   else mostrarTab(tab);
-  if (ancla) requestAnimationFrame(() => resaltar(ancla));
 }
 
 function resaltar(id) {
@@ -59,12 +61,16 @@ function mostrarTab(tab) {
       if (a.dataset.tab === tab) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     }
-    document.body.dataset.tab = tab;
-    window.scrollTo(0, 0);
+    if (tab === "novedades") pintarFeed(); // refresca "hace X min" al entrar
+    if (anclaPendiente) { resaltar(anclaPendiente); anclaPendiente = null; } else window.scrollTo(0, 0);
     $(`#t-${tab}`)?.focus({ preventScroll: true });
   };
-  if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(cambiar);
-  else cambiar();
+  if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // Si otra transición la interrumpe, el navegador rechaza estas promesas; el cambio de pestaña igual se aplica.
+    const t = document.startViewTransition(cambiar);
+    t.ready.catch(() => {});
+    t.finished.catch(() => {});
+  } else cambiar();
 }
 
 function enRuta() {
@@ -290,8 +296,11 @@ function iniciarReportar() {
     else if (/\d[\d\s.-]{6,}\d|@|https?:\/\//i.test(texto + " " + zona)) msg = "Quita teléfonos, correos y enlaces. No pongas datos personales.";
     if (msg) { err.textContent = msg; err.hidden = false; return; }
     const propios = almacen.get("reportes", []);
-    propios.unshift({ id: `r-${Date.now().toString(36)}`, tipo, zona, texto, ts: Date.now(), sigue: 1, ya_no: 0 });
+    const id = `r-${Date.now().toString(36)}`;
+    propios.unshift({ id, tipo, zona, texto, ts: Date.now(), sigue: 0, ya_no: 0 });
     almacen.set("reportes", propios.slice(0, 30));
+    S.votos[id] = "sigue"; // quien reporta ya cuenta como un voto; no puede sumar otro
+    almacen.set("votos", S.votos);
     form.reset();
     dlg.close();
     armarReportes(); reconstruirIndice(); S.filtro = "todo"; pintarFeed();
@@ -434,13 +443,12 @@ async function iniciar() {
 
   for (const b of $$("#filtros .chip-btn")) b.addEventListener("click", () => { S.filtro = b.dataset.f; pintarFeed(); });
   $("#btn-compartir-ficha").addEventListener("click", () => S.ficha && abrirCompartir(textoFicha()));
-  $("#btn-imprimir").addEventListener("click", () => { irA("inicio"); print(); });
-  for (const id of ["cerrar-compartir"]) $(`#${id}`).addEventListener("click", () => $("#dlg-compartir").close());
+  $("#btn-imprimir").addEventListener("click", () => print());
+  $("#cerrar-compartir").addEventListener("click", () => $("#dlg-compartir").close());
 
   addEventListener("hashchange", enRuta);
   enRuta();
   iniciarSW();
-  setInterval(() => { if (!document.hidden && !$("#novedades").hidden) pintarFeed(); }, 60000);
 }
 
 iniciar();

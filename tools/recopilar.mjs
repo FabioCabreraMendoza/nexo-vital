@@ -57,7 +57,7 @@ function temas(texto) {
 
 async function consultar(q) {
   const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q + " when:" + MAX_DIAS + "d")}&hl=es-419&gl=PE&ceid=PE:es-419`;
-  const r = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (compatible; NexovitalRecopilador/0.1)" } });
+  const r = await fetch(url, { signal: AbortSignal.timeout(15000), headers: { "User-Agent": "Mozilla/5.0 (compatible; NexovitalRecopilador/0.1)" } });
   if (!r.ok) throw new Error(`${q}: HTTP ${r.status}`);
   const xml = await r.text();
   return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(([, it]) => {
@@ -65,7 +65,7 @@ async function consultar(q) {
     const fuente = etiqueta(it, "source") || (tituloCompleto.split(" - ").at(-1) ?? "");
     const titulo = tituloCompleto.replace(new RegExp(`\\s+-\\s+${fuente.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`), "");
     const fecha = new Date(etiqueta(it, "pubDate"));
-    return { titulo, fuente, url: etiqueta(it, "link"), fecha: isNaN(fecha) ? null : fecha.toISOString(), consulta: q };
+    return { titulo, fuente, url: etiqueta(it, "link"), fecha: isNaN(fecha) ? null : fecha.toISOString() };
   });
 }
 

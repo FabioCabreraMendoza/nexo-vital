@@ -17,11 +17,11 @@ export const EJEMPLOS = [
 ];
 
 const SENALES = [
-  { re: /\b(urgente|inmediat|ahora mismo|ultima hora|alerta maxima|ya mismo)\b|!{2,}/i, txt: "Usa lenguaje de urgencia para que lo reenvíes sin pensar." },
-  { re: /\b(reenvia|reenvien|comparte|compartan|difunde|difundan|pasa la voz|cadena|a todos tus contactos)\b/i, txt: "Pide que lo reenvíes. Los avisos oficiales no piden eso." },
+  { re: /\b(urgente|inmediat\w*|ahora mismo|ultima hora|alerta maxima|ya mismo)\b|!{2,}/i, txt: "Usa lenguaje de urgencia para que lo reenvíes sin pensar." },
+  { re: /\b(reenvia\w*|reenvien|comparte|compartan|difunde|difundan|pasa la voz|cadena|a todos tus contactos)\b/i, txt: "Pide que lo reenvíes. Los avisos oficiales no piden eso." },
   { re: /https?:\/\/|\bwww\.|\bbit\.ly|\btinyurl|\bwa\.me/i, txt: "Trae un enlace. No lo abras si no conoces la página: escribe tú mismo la dirección oficial." },
-  { re: /\b(clave|contrasena|dni|cuenta|yape|plin|deposit|transferenc|tarjeta|codigo de verificacion)\b/i, txt: "Pide datos personales o dinero. Un aviso oficial no pide eso." },
-  { re: /\b(evacu|desaloj|corran|salgan de sus casas|salgan ya)\b/i, txt: "Da órdenes de evacuar. Esas órdenes salen de INDECI o Defensa Civil por sus canales oficiales." },
+  { re: /\b(clave|contrasena|dni|yape|plin|deposit\w*|transferenc\w*|tarjeta|codigo de verificacion|numero de cuenta|tu cuenta|cuenta bancaria)\b/i, txt: "Pide datos personales o dinero. Un aviso oficial no pide eso." },
+  { re: /\b(evacu\w*|desaloj\w*|corran|salgan de sus casas|salgan ya)\b/i, txt: "Da órdenes de evacuar. Esas órdenes salen de INDECI o Defensa Civil por sus canales oficiales." },
   { re: /\b(en|dentro de|a las|manana a las)\s+\d+\s*(min|minutos|horas|h|pm|am)\b|\b\d+\s*(metros|m) de (altura|alto)\b/i, txt: "Da una hora o una cifra exacta sin citar de dónde sale." },
 ];
 
