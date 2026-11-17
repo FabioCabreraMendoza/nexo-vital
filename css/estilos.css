@@ -270,6 +270,21 @@
     border-radius: 0.6rem; background: var(--surface-2); color: var(--ink); font: inherit; font-weight: 650; cursor: pointer;
   }
 
+  /* Introducción de la portada: qué es la app y qué contiene */
+  .intro { margin-block: 0.7rem; }
+  .intro h2 { margin: 0 0 0.3rem; font-size: 1.15rem; }
+  .intro p { margin: 0; font-size: 0.95rem; }
+  .intro-guia { margin-block-start: 0.4rem; }
+  .intro-item {
+    display: grid; align-content: start; gap: 0.2rem; inline-size: 10.5rem; padding: 0.7rem; border-radius: 0.9rem;
+    background: var(--surface); border: 1px solid var(--line); border-inline-start: 4px solid var(--verde);
+    color: var(--ink); text-decoration: none; font-size: 0.85rem;
+  }
+  .intro-item .ico { inline-size: 1.3rem; block-size: 1.3rem; color: var(--morado-suave); }
+  .intro-item strong { font-size: 0.95rem; }
+  .intro-item span { color: var(--ink-soft); }
+  .intro-item:hover { border-color: var(--line-strong); }
+
   /* Tarjeta destacada (portada y primera noticia oficial): degradado de la marca, texto blanco (≥ 6:1) */
   .hero {
     position: relative; display: grid; gap: 0.5rem; margin-block: 0.7rem; padding: 1rem; border-radius: 1.1rem;
