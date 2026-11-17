@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "NubIA · NEXOVITAL",
+  "short_name": "NubIA",
+  "description": "Información verificada y sintetizada sobre El Niño y las quebradas de Trujillo, con fuente y fecha.",
+  "lang": "es-PE",
+  "start_url": "./index.html#inicio",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e4a73",
+  "theme_color": "#0e4a73",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NubIA · NEXOVITAL</title>
+  <meta name="description" content="Información verificada y sintetizada sobre El Niño y las quebradas de Trujillo, con fuente y fecha. No emite alertas.">
+  <meta name="theme-color" content="#0e4a73">
+  <meta name="color-scheme" content="light dark">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/estilos.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <!-- Iconos (sprite): se reutilizan con <use href="#i-nombre"> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="i-feed" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/></symbol>
+      <symbol id="i-verify" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.7 7L4 20.5l1.5-4.6A8 8 0 1 1 21 12z"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-off" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M5 12.5a10 10 0 0 1 4-2.3M19 12.5a10 10 0 0 0-4.6-2.6"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r=".6"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="m4 12 16-8-6 16-3-7z"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/></symbol>
+      <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v6H7z"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A15 15 0 0 1 4 5a1 1 0 0 1 1-1z"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5v.01"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+
+  <header class="app-header">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="16" fill="#0e4a73"/>
+        <path d="M18 40a9 9 0 0 1 3-17.5A12 12 0 0 1 44 25a8 8 0 0 1 1 15z" fill="#fff"/>
+        <path d="M24 49c0-2 2-3 2-5m6 5c0-2 2-3 2-5m6 5c0-2 2-3 2-5" stroke="#8fd0ff" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div>
+        <p class="brand-name">NubIA</p>
+        <p class="brand-sub">NEXOVITAL · El Porvenir, Trujillo</p>
+      </div>
+    </div>
+    <p id="estado-red" class="chip chip-red" role="status">
+      <svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>En línea</span>
+    </p>
+  </header>
+
+  <div class="avisos-fijos">
+    <p id="banner-offline" class="banda banda-offline" role="status" hidden></p>
+    <p id="banner-venc" class="banda banda-venc" role="status" hidden></p>
+    <p class="banda banda-limite">
+      <svg class="ico" aria-hidden="true"><use href="#i-info"/></svg>
+      <span>Informativo. <strong>No es una alerta oficial.</strong> En una emergencia llama a INDECI al <a href="tel:115">115</a>.</span>
+    </p>
+  </div>
+
+  <main id="contenido" tabindex="-1">
+
+    <!-- ===== INICIO: ficha única ===== -->
+    <section id="inicio" class="panel" aria-labelledby="t-inicio" hidden>
+      <h1 id="t-inicio" tabindex="-1">Ficha de las quebradas San Ildefonso y San Carlos</h1>
+      <p class="meta" id="ficha-meta">Cargando…</p>
+
+      <div class="resumen" id="ficha-resumen"></div>
+
+      <div class="acciones-fila">
+        <button type="button" class="btn btn-primario" id="btn-compartir-ficha"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>Compartir ficha</button>
+        <button type="button" class="btn" id="btn-imprimir"><svg class="ico" aria-hidden="true"><use href="#i-print"/></svg>Imprimir</button>
+      </div>
+
+      <div id="ficha-bloques"></div>
+
+      <section class="obras" aria-labelledby="t-obras">
+        <h2 id="t-obras">Obras por componente</h2>
+        <p class="sub">Estado, fecha y fuente de cada parte. “Terminado” no quiere decir que el riesgo desapareció.</p>
+        <ul id="obras-lista" class="lista-limpia"></ul>
+      </section>
+    </section>
+
+    <!-- ===== NOVEDADES: tarjetas estilo Waze ===== -->
+    <section id="novedades" class="panel" aria-labelledby="t-novedades" hidden>
+      <h1 id="t-novedades" tabindex="-1">Novedades</h1>
+      <p class="meta" id="novedades-meta"></p>
+      <div class="chips" role="group" aria-label="Filtrar por origen" id="filtros">
+        <button type="button" class="chip-btn" data-f="todo" aria-pressed="true">Todo</button>
+        <button type="button" class="chip-btn" data-f="oficial" aria-pressed="false">Oficial</button>
+        <button type="button" class="chip-btn" data-f="prensa" aria-pressed="false">Prensa</button>
+        <button type="button" class="chip-btn" data-f="vecinal" aria-pressed="false">Vecinos</button>
+      </div>
+      <div id="feed" class="feed" aria-live="polite"></div>
+      <button type="button" class="fab" id="btn-reportar"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>Reportar</button>
+    </section>
+
+    <!-- ===== VERIFICAR ===== -->
+    <section id="verificar" class="panel panel-angosto" aria-labelledby="t-verificar" hidden>
+      <h1 id="t-verificar" tabindex="-1">¿Es oficial?</h1>
+      <p class="sub">Pega un mensaje que te llegó. Lo comparo con los avisos oficiales que conozco. No digo si es falso o cierto: te muestro qué encontré y dónde comprobarlo.</p>
+      <form id="form-verificar" novalidate>
+        <label for="msg-verificar" class="etiqueta">Mensaje a comprobar</label>
+        <textarea id="msg-verificar" rows="5" maxlength="1200" placeholder="Pega aquí el mensaje…" aria-describedby="err-verificar"></textarea>
+        <p id="err-verificar" class="error" role="alert" hidden></p>
+        <div class="acciones-fila">
+          <button type="submit" class="btn btn-primario"><svg class="ico" aria-hidden="true"><use href="#i-verify"/></svg>Comprobar</button>
+          <button type="reset" class="btn">Borrar</button>
+        </div>
+      </form>
+      <details class="ejemplos">
+        <summary>Probar con un ejemplo</summary>
+        <ul class="lista-limpia" id="ejemplos"></ul>
+      </details>
+      <div id="resultado-verificar" aria-live="polite"></div>
+    </section>
+
+    <!-- ===== NUBIA (chat con RAG) ===== -->
+    <section id="nubia" class="panel panel-angosto panel-chat" aria-labelledby="t-nubia" hidden>
+      <h1 id="t-nubia" tabindex="-1">Pregúntale a NubIA</h1>
+      <p class="sub">Respondo solo con lo recopilado aquí (ficha, avisos, prensa y reportes de vecinos) y siempre cito la fuente. No emito alertas.</p>
+      <div id="chat-log" class="chat-log" role="log" aria-live="polite" aria-label="Conversación con NubIA"></div>
+      <div class="sugerencias" id="chat-sugerencias"></div>
+      <form id="form-chat" class="chat-form" autocomplete="off">
+        <label for="chat-input" class="visualmente-oculto">Tu pregunta</label>
+        <input id="chat-input" name="q" type="text" enterkeyhint="send" placeholder="Ej.: ¿Qué falta en San Ildefonso?" maxlength="300" required>
+        <button type="submit" class="btn btn-primario btn-icono" aria-label="Enviar pregunta"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg></button>
+      </form>
+    </section>
+
+    <!-- ===== FUENTES ===== -->
+    <section id="fuentes" class="panel panel-angosto" aria-labelledby="t-fuentes" hidden>
+      <h1 id="t-fuentes" tabindex="-1">Fuentes oficiales</h1>
+      <ul id="fuentes-lista" class="lista-limpia lista-fuentes"></ul>
+
+      <h2>Teléfonos de emergencia</h2>
+      <ul id="contactos-lista" class="lista-limpia lista-fuentes"></ul>
+
+      <h2>Sin conexión e instalación</h2>
+      <div class="caja" id="caja-offline">
+        <p id="offline-estado">Comprobando modo sin conexión…</p>
+        <button type="button" class="btn btn-primario" id="btn-instalar" hidden><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg>Instalar app</button>
+        <p class="sub">En iPhone: toca Compartir y luego “Añadir a pantalla de inicio”.</p>
+      </div>
+
+      <h2>Qué es y qué no es esta app</h2>
+      <div class="caja">
+        <ul class="lista-puntos">
+          <li><strong>Sí:</strong> junta información pública sobre El Niño y las quebradas de Trujillo, con fuente y fecha, en lenguaje simple.</li>
+          <li><strong>Sí:</strong> te manda a las fuentes oficiales para comprobar.</li>
+          <li><strong>No:</strong> no emite alertas, no predice y no reemplaza a INDECI ni al SISMATE.</li>
+          <li><strong>No:</strong> no dice que un mensaje es falso. Dice qué encontró y dónde comprobarlo.</li>
+          <li><strong>Reportes de vecinos:</strong> no están verificados. En este prototipo se guardan solo en tu dispositivo.</li>
+          <li><strong>Privacidad:</strong> no pedimos datos personales ni usamos analítica.</li>
+        </ul>
+      </div>
+
+      <details class="caja">
+        <summary>Pendientes del equipo (borrador)</summary>
+        <ul class="lista-puntos" id="todo-lista"></ul>
+      </details>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="Secciones">
+    <a href="#inicio" data-tab="inicio"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg><span>Inicio</span></a>
+    <a href="#novedades" data-tab="novedades"><svg class="ico" aria-hidden="true"><use href="#i-feed"/></svg><span>Novedades</span></a>
+    <a href="#verificar" data-tab="verificar"><svg class="ico" aria-hidden="true"><use href="#i-verify"/></svg><span>¿Es oficial?</span></a>
+    <a href="#nubia" data-tab="nubia"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>NubIA</span></a>
+    <a href="#fuentes" data-tab="fuentes"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg><span>Fuentes</span></a>
+  </nav>
+
+  <!-- Hoja: reportar -->
+  <dialog id="dlg-reportar" aria-labelledby="t-reportar" closedby="any" class="hoja">
+    <form id="form-reportar" method="dialog" novalidate>
+      <div class="hoja-cab">
+        <h2 id="t-reportar">Reportar algo que ves</h2>
+        <button type="button" class="btn btn-icono btn-plano" id="cerrar-reportar" aria-label="Cerrar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+      <p class="sub">Se mostrará como “sin verificar”. En este prototipo se guarda solo en tu dispositivo.</p>
+      <label for="rep-tipo" class="etiqueta">¿Qué pasa?</label>
+      <select id="rep-tipo" required>
+        <option value="lluvia">Lluvia fuerte</option>
+        <option value="cauce">Basura o desmonte en el cauce</option>
+        <option value="calle">Calle inundada o bloqueada</option>
+        <option value="servicios">Sin agua o sin luz</option>
+        <option value="otro">Otro</option>
+      </select>
+      <label for="rep-zona" class="etiqueta">¿Dónde? (sector o urbanización)</label>
+      <input id="rep-zona" list="zonas" required maxlength="40" placeholder="Ej.: Río Seco" autocomplete="off">
+      <datalist id="zonas"><option value="Río Seco"><option value="Mampuesto"><option value="Alto Trujillo"><option value="El Porvenir"></datalist>
+      <label for="rep-texto" class="etiqueta">Cuéntalo en una frase</label>
+      <textarea id="rep-texto" rows="3" maxlength="200" required placeholder="Ej.: Lluvia fuerte en la manzana A"></textarea>
+      <p class="ayuda">No pongas nombres, teléfonos ni correos. Máximo 200 letras.</p>
+      <p id="err-reportar" class="error" role="alert" hidden></p>
+      <div class="acciones-fila">
+        <button type="submit" class="btn btn-primario" value="ok">Publicar reporte</button>
+        <button type="button" class="btn" id="cancelar-reportar">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Hoja: compartir -->
+  <dialog id="dlg-compartir" aria-labelledby="t-compartir" closedby="any" class="hoja">
+    <div class="hoja-cab">
+      <h2 id="t-compartir">Compartir</h2>
+      <button type="button" class="btn btn-icono btn-plano" id="cerrar-compartir" aria-label="Cerrar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <pre id="compartir-vista" class="vista-texto" tabindex="0"></pre>
+    <div class="compartir-botones" id="compartir-botones"></div>
+    <p id="compartir-estado" class="sub" role="status"></p>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

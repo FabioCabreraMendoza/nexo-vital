@@ -1,0 +1,273 @@
+{
+  "version": "0.1-borrador",
+  "actualizado": "2026-11-17",
+  "vence": "2026-11-24",
+  "territorio": "Quebradas San Ildefonso y San Carlos (El Porvenir, Trujillo)",
+  "validacion": "Contenido aún sin validar por Defensa Civil de la Municipalidad ni por INDECI.",
+  "resumen": [
+    "Las obras de San Ildefonso (cerca de 80%) y San Carlos (cerca de 70%) todavía no están terminadas.",
+    "Aunque la obra avance, el riesgo sigue. Prepárate igual.",
+    "Solo INDECI envía alertas oficiales. Confirma tu punto seguro con Defensa Civil de la Municipalidad."
+  ],
+  "todo": [
+    "TODO: decidir territorio piloto (El Porvenir completo o Mampuesto y Río Seco).",
+    "TODO: la fecha de vencimiento (7 días) es una propuesta; el equipo define cada cuánto se actualiza.",
+    "TODO: confirmar fecha y fuente exacta de cada cifra de obras antes de la presentación.",
+    "TODO: confirmar números de emergencia vigentes y teléfono de Defensa Civil de la MPT.",
+    "TODO: confirmar que los enlaces oficiales abren la página correcta."
+  ],
+  "bloques": {
+    "funciona": [
+      {
+        "id": "f-diques",
+        "texto": "Los 36 diques de San Ildefonso y los 25 de San Carlos figuran como terminados.",
+        "fuentes": [{ "nombre": "Contraloría (vía El Comercio)", "fecha": "sin información" }],
+        "alcance": "Solo los diques. Otras partes de la obra siguen en construcción."
+      },
+      {
+        "id": "f-limpieza",
+        "texto": "La prensa reporta trabajos de limpieza del cauce de San Ildefonso.",
+        "fuentes": [{ "nombre": "Diario Correo", "fecha": "2026-11-09" }],
+        "alcance": "Titular de prensa. No sabemos cuánto cauce se limpió."
+      },
+      {
+        "id": "f-sismate",
+        "texto": "El SISMATE ya envía alertas oficiales a los celulares por Cell Broadcast y SMS.",
+        "fuentes": [{ "nombre": "MTC / INDECI", "fecha": "sin información" }],
+        "alcance": "Solo INDECI decide cuándo se envía una alerta."
+      }
+    ],
+    "falta": [
+      {
+        "id": "x-ildefonso",
+        "texto": "La obra de San Ildefonso tiene un avance de 79,84%. Otras fuentes dicen 79% y 81%.",
+        "fuentes": [
+          { "nombre": "ANIN (vía Macronorte)", "fecha": "2026-10-20" },
+          { "nombre": "Otras fuentes de prensa", "fecha": "sin información" }
+        ],
+        "alcance": "Avance físico de la obra. No mide cuánta protección da hoy."
+      },
+      {
+        "id": "x-tunel",
+        "texto": "Falta completar el túnel de 1,5 km que llevará el agua hacia el río Moche.",
+        "fuentes": [{ "nombre": "Diario Correo", "fecha": "sin información" }],
+        "alcance": "Es un componente clave de San Ildefonso."
+      },
+      {
+        "id": "x-carlos",
+        "texto": "La obra de San Carlos tiene un avance aproximado de 69% a 70%.",
+        "fuentes": [{ "nombre": "ANIN y prensa", "fecha": "2026-11" }],
+        "alcance": "Cifra aproximada. TODO: confirmar fuente y fecha exactas."
+      },
+      {
+        "id": "x-contraloria",
+        "texto": "Un componente de las defensas ribereñas de San Carlos sigue en 90,75% desde enero de 2026, y no se aplicó el plan de protección de obras.",
+        "fuentes": [{ "nombre": "Contraloría (vía Diario Correo)", "fecha": "sin información" }],
+        "alcance": "Un componente, no toda la obra."
+      },
+      {
+        "id": "x-sindato",
+        "texto": "Sin información: avance de la quebrada El León y del drenaje pluvial de Trujillo.",
+        "fuentes": [{ "nombre": "No se encontró dato público", "fecha": "2026-11-17" }],
+        "alcance": "Pedir el dato por transparencia: la ley da hasta 10 días hábiles."
+      }
+    ],
+    "riesgo": [
+      {
+        "id": "r-avance",
+        "texto": "Que una obra avance no quiere decir que el riesgo ya pasó. Estudios sobre obras de contención muestran que la gente puede prepararse menos cuando cree que la obra la cuida.",
+        "fuentes": [{ "nombre": "Revisión de 94 estudios (Springer)", "fecha": "sin información" }],
+        "alcance": "Idea general, no es un dato de El Porvenir."
+      },
+      {
+        "id": "r-cauce",
+        "texto": "Siguen arrojando desmonte y basura en el cauce de San Ildefonso. Eso puede estorbar el paso del agua.",
+        "fuentes": [{ "nombre": "Defensa Civil (vía Canal N)", "fecha": "sin información" }],
+        "alcance": "Advertencia de Defensa Civil."
+      },
+      {
+        "id": "r-2017",
+        "texto": "En 2017 hubo 7 huaicos en San Ildefonso entre febrero y marzo. El dique colapsó el 15 de marzo y el agua pasó por calles de Trujillo.",
+        "fuentes": [{ "nombre": "INGEMMET", "fecha": "2017-03-15" }],
+        "alcance": "Hecho pasado. Muestra lo que puede pasar."
+      },
+      {
+        "id": "r-enfen",
+        "texto": "ENFEN mantiene una alerta de El Niño de magnitud extraordinaria. Una fuente dice hasta enero de 2027 y otras, hasta febrero de 2027.",
+        "fuentes": [
+          { "nombre": "ENFEN (vía El Búho)", "fecha": "sin información" },
+          { "nombre": "Perú21 y Expreso", "fecha": "2026-10-31" }
+        ],
+        "alcance": "Alerta para la costa norte. No dice cuándo ni dónde lloverá."
+      },
+      {
+        "id": "r-servicios",
+        "texto": "En 2025 hubo sectores de Trujillo sin agua ni luz. Con el celular sin batería, esta app no sirve: ten una radio a pilas.",
+        "fuentes": [{ "nombre": "Informe de prensa y equipo NubIA", "fecha": "2025" }],
+        "alcance": "Recomendación del equipo, no es un aviso oficial."
+      }
+    ],
+    "escuchar": [
+      {
+        "id": "e-indeci",
+        "texto": "INDECI es la única entidad que decide cuándo enviar una alerta oficial (SISMATE).",
+        "fuentes": [{ "nombre": "INDECI", "fecha": "sin información" }],
+        "alcance": "Nacional."
+      },
+      {
+        "id": "e-defensa",
+        "texto": "Confirma tu punto seguro y tu ruta de salida con Defensa Civil de la Municipalidad. Esta app no da instrucciones de evacuación.",
+        "fuentes": [{ "nombre": "Regla de NubIA", "fecha": "2026-11-17" }],
+        "alcance": "TODO: añadir teléfono o dirección de Defensa Civil de la MPT cuando se confirme."
+      },
+      {
+        "id": "e-radio",
+        "texto": "Escucha también la radio y los noticieros locales. Según nuestro recuerdo, en 2017 los avisos llegaron sobre todo por ahí.",
+        "fuentes": [{ "nombre": "Testimonio del equipo (no confirmado)", "fecha": "2026-11-17" }],
+        "alcance": "Testimonio, no dato."
+      }
+    ]
+  },
+  "obras": [
+    {
+      "id": "o-ildefonso",
+      "componente": "Quebrada San Ildefonso (conjunto)",
+      "estado": "En construcción",
+      "detalle": "79,84% según ANIN. Otras fuentes: 79% y 81%.",
+      "fuentes": [{ "nombre": "ANIN (vía Macronorte)", "fecha": "2026-10-20" }]
+    },
+    {
+      "id": "o-diques-ildefonso",
+      "componente": "36 diques de San Ildefonso",
+      "estado": "Terminado según la fuente",
+      "detalle": "Terminado no quiere decir que el riesgo desapareció.",
+      "fuentes": [{ "nombre": "Contraloría (vía El Comercio)", "fecha": "sin información" }]
+    },
+    {
+      "id": "o-tunel",
+      "componente": "Túnel de trasvase al río Moche (1,5 km)",
+      "estado": "Falta completar",
+      "detalle": "Componente clave de San Ildefonso.",
+      "fuentes": [{ "nombre": "Diario Correo", "fecha": "sin información" }]
+    },
+    {
+      "id": "o-carlos",
+      "componente": "Quebrada San Carlos (conjunto)",
+      "estado": "En construcción",
+      "detalle": "Entre 69% y 70% de avance (aproximado).",
+      "fuentes": [{ "nombre": "ANIN y prensa", "fecha": "2026-11" }]
+    },
+    {
+      "id": "o-diques-carlos",
+      "componente": "25 diques de San Carlos",
+      "estado": "Terminado según la fuente",
+      "detalle": "Terminado no quiere decir que el riesgo desapareció.",
+      "fuentes": [{ "nombre": "Contraloría (vía El Comercio)", "fecha": "sin información" }]
+    },
+    {
+      "id": "o-ribereñas",
+      "componente": "Defensas ribereñas de San Carlos (un componente)",
+      "estado": "En construcción",
+      "detalle": "90,75% acumulado, sin cambio desde enero de 2026. No se aplicó el plan de protección de obras.",
+      "fuentes": [{ "nombre": "Contraloría (vía Diario Correo)", "fecha": "sin información" }]
+    },
+    {
+      "id": "o-leon",
+      "componente": "Quebrada El León",
+      "estado": "Sin información",
+      "detalle": "No se encontró el avance actual.",
+      "fuentes": [{ "nombre": "Búsqueda del equipo", "fecha": "2026-11-17" }]
+    },
+    {
+      "id": "o-drenaje",
+      "componente": "Drenaje pluvial urbano de Trujillo",
+      "estado": "Sin información",
+      "detalle": "No se encontró el avance actual.",
+      "fuentes": [{ "nombre": "Búsqueda del equipo", "fecha": "2026-11-17" }]
+    },
+    {
+      "id": "o-moche",
+      "componente": "Río Moche (cauce receptor del túnel)",
+      "estado": "Sin información",
+      "detalle": "No se encontró información sobre su estado actual.",
+      "fuentes": [{ "nombre": "Búsqueda del equipo", "fecha": "2026-11-17" }]
+    }
+  ],
+  "avisos_oficiales": [
+    {
+      "id": "a-enfen",
+      "entidad": "ENFEN",
+      "titulo": "Alerta de El Niño costero de magnitud extraordinaria",
+      "resumen": "ENFEN mantiene la alerta de El Niño costero con magnitud extraordinaria. Las fuentes de prensa dicen que seguiría hasta febrero de 2027.",
+      "fecha": "2026-10-31",
+      "alcance": "Costa norte. Es una condición general, no un aviso de huaico.",
+      "claves": ["enfen", "niño", "nino", "costero", "magnitud extraordinaria", "alerta de el niño", "fenomeno el niño", "febrero 2027", "enero 2027"],
+      "url": "https://www.enfen.gob.pe"
+    },
+    {
+      "id": "a-senamhi-rojo",
+      "entidad": "SENAMHI",
+      "titulo": "Alerta roja por lluvias intensas en el norte del país",
+      "resumen": "SENAMHI emitió una alerta roja por lluvias intensas en el norte. La nota menciona hasta 100 mm de precipitación en Tumbes.",
+      "fecha": "2026-11-10",
+      "alcance": "Norte del país. La nota habla de Tumbes, no de Trujillo.",
+      "claves": ["senamhi", "alerta roja", "lluvias intensas", "tumbes", "precipitacion", "100 mm"],
+      "url": "https://www.senamhi.gob.pe"
+    },
+    {
+      "id": "a-sismate",
+      "entidad": "INDECI / MTC",
+      "titulo": "Cómo llega una alerta oficial: SISMATE",
+      "resumen": "Las alertas oficiales llegan al celular por Cell Broadcast y SMS. Solo INDECI decide cuándo enviarlas. No piden que reenvíes el mensaje ni que entres a un enlace.",
+      "fecha": "sin información",
+      "alcance": "Nacional.",
+      "claves": ["sismate", "cell broadcast", "sms", "alerta oficial", "indeci", "mtc", "mensaje de alerta"],
+      "url": "https://www.gob.pe/indeci"
+    },
+    {
+      "id": "a-mensajes-sismate",
+      "tipo": "advertencia",
+      "entidad": "INDECI",
+      "titulo": "Circularon mensajes que imitaban al SISMATE",
+      "resumen": "El 20 de mayo de 2026 circularon mensajes con apariencia del SISMATE sobre temas electorales, un sismo y un tsunami. INDECI pidió comprobar con canales oficiales.",
+      "fecha": "2026-05-20",
+      "alcance": "Hecho nacional de mayo de 2026. No trata de huaicos.",
+      "claves": ["sismate", "tsunami", "sismo", "fraude", "electoral"],
+      "url": "https://www.gob.pe/indeci"
+    },
+    {
+      "id": "a-cauce",
+      "entidad": "Defensa Civil",
+      "titulo": "Advertencia por desmonte y basura en el cauce de San Ildefonso",
+      "resumen": "Defensa Civil advierte que siguen arrojando desmonte y basura en el cauce de la quebrada San Ildefonso.",
+      "fecha": "sin información",
+      "alcance": "Quebrada San Ildefonso.",
+      "claves": ["san ildefonso", "desmonte", "basura", "cauce", "quebrada", "defensa civil", "residuos"],
+      "url": "https://www.munitrujillo.gob.pe"
+    },
+    {
+      "id": "a-protocolo",
+      "entidad": "Gobierno Regional La Libertad",
+      "titulo": "Se activó el protocolo de respuesta ante El Niño",
+      "resumen": "Según la prensa, autoridades de La Libertad activaron un protocolo de emergencia para toda la región ante el fenómeno El Niño.",
+      "fecha": "2026-10-27",
+      "alcance": "Región La Libertad. TODO: buscar el comunicado original.",
+      "claves": ["protocolo", "gobierno regional", "la libertad", "emergencia", "niño", "nino", "respuesta"],
+      "url": "https://www.gob.pe/regionlalibertad"
+    }
+  ],
+  "fuentes_oficiales": [
+    { "id": "s-indeci", "nombre": "INDECI", "descripcion": "Defensa Civil nacional. Decide las alertas oficiales.", "url": "https://www.gob.pe/indeci" },
+    { "id": "s-senamhi", "nombre": "SENAMHI", "descripcion": "Pronóstico del tiempo y avisos meteorológicos.", "url": "https://www.senamhi.gob.pe" },
+    { "id": "s-enfen", "nombre": "ENFEN", "descripcion": "Comunicados oficiales sobre El Niño costero.", "url": "https://www.enfen.gob.pe" },
+    { "id": "s-mpt", "nombre": "Municipalidad Provincial de Trujillo", "descripcion": "Defensa Civil municipal y avisos locales.", "url": "https://www.munitrujillo.gob.pe" },
+    { "id": "s-anin", "nombre": "ANIN", "descripcion": "Autoridad que ejecuta las obras de las quebradas.", "url": "https://www.gob.pe/anin" },
+    { "id": "s-ingemmet", "nombre": "INGEMMET", "descripcion": "Estudios de peligros geológicos, como huaicos.", "url": "https://www.gob.pe/ingemmet" },
+    { "id": "s-contraloria", "nombre": "Contraloría", "descripcion": "Informes sobre el avance de las obras.", "url": "https://www.contraloria.gob.pe" }
+  ],
+  "contactos": [
+    { "nombre": "INDECI", "numero": "115", "nota": "Central de emergencias. TODO: confirmar." },
+    { "nombre": "Policía Nacional", "numero": "105", "nota": "TODO: confirmar." },
+    { "nombre": "Bomberos", "numero": "116", "nota": "TODO: confirmar." }
+  ]
+}

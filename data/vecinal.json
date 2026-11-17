@@ -1,0 +1,41 @@
+{
+  "aviso": "EJEMPLOS DE DEMOSTRACIÓN. No son reportes reales. No hay evidencia local de reportes vecinales de El Porvenir: se usan solo para mostrar cómo funcionaría.",
+  "reportes": [
+    {
+      "id": "demo-1",
+      "tipo": "lluvia",
+      "zona": "Río Seco",
+      "texto": "Lluvia fuerte en la manzana A de la urbanización Río Seco.",
+      "hace_min": 12,
+      "sigue": 14,
+      "ya_no": 3
+    },
+    {
+      "id": "demo-2",
+      "tipo": "cauce",
+      "zona": "Mampuesto",
+      "texto": "Están dejando bolsas de basura y desmonte cerca del cauce de la quebrada.",
+      "hace_min": 55,
+      "sigue": 9,
+      "ya_no": 1
+    },
+    {
+      "id": "demo-3",
+      "tipo": "calle",
+      "zona": "El Porvenir",
+      "texto": "Charco grande en la avenida principal. Los carros pasan despacio.",
+      "hace_min": 140,
+      "sigue": 2,
+      "ya_no": 7
+    },
+    {
+      "id": "demo-4",
+      "tipo": "servicios",
+      "zona": "Alto Trujillo",
+      "texto": "Sin luz desde hace una hora en mi cuadra.",
+      "hace_min": 75,
+      "sigue": 5,
+      "ya_no": 2
+    }
+  ]
+}
