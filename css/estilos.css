@@ -220,7 +220,7 @@
 
   /* ---- formularios ---- */
   .etiqueta { display: block; font-weight: 650; margin-block: 0.9rem 0.3rem; }
-  :where(input[type="text"], input:not([type]), select, textarea) {
+  :where(input[type="text"], input[type="search"], input:not([type]), select, textarea) {
     inline-size: 100%; min-block-size: var(--target); padding: 0.6rem 0.8rem;
     border: 1.5px solid var(--line-strong); border-radius: 0.7rem; /* límite del control: ≥ 3:1 */
     background: var(--surface); color: var(--ink); font: inherit;
@@ -236,13 +236,6 @@
   details.ejemplos > summary { cursor: pointer; font-weight: 650; min-block-size: var(--target); display: flex; align-items: center; color: var(--brand); }
 
   /* ---- ficha ---- */
-  .resumen {
-    margin-block: 0.9rem; padding: 0.9rem 1rem; border-radius: var(--r);
-    background: var(--oficial-bg); border: 1.5px solid var(--oficial-line);
-  }
-  .resumen h2 { margin: 0 0 0.4rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); }
-  .resumen ul { margin: 0; padding-inline-start: 1.1rem; display: grid; gap: 0.4rem; font-weight: 550; }
-
   .bloque { margin-block: 1rem; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); overflow: clip; }
   .bloque > header { padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.6rem; border-block-end: 1px solid var(--line); }
   .bloque > header h2 { margin: 0; font-size: 1.1rem; }
@@ -266,15 +259,9 @@
   .estado[data-e="terminado"] { border-color: var(--oficial-line); background: var(--oficial-bg); }
   .estado[data-e="falta"] { border-style: dashed; border-color: var(--ojo-line); background: var(--ojo-bg); }
 
-  /* ---- tarjetas (feed) ---- */
+  /* ---- portada y notas estilo noticias ---- */
   .feed { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr)); padding-block-end: 5rem; }
-  .card {
-    container: card / inline-size;
-    display: grid; gap: 0.55rem; align-content: start;
-    padding: 0.9rem 1rem; border-radius: var(--r);
-    background: var(--surface); border: 1px solid var(--line);
-  }
-  .card-cab { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+  .feed-corto { padding-block-end: 0; }
   .media { display: block; inline-size: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 0.6rem; background: var(--surface-2); }
   #rep-foto-vista { max-block-size: 12rem; margin-block: 0.5rem; }
   input[type="file"] { inline-size: 100%; min-block-size: var(--target); }
@@ -282,24 +269,90 @@
     min-block-size: 2.5rem; margin-inline-end: 0.75rem; padding-inline: 0.9rem; border: 1.5px solid var(--line-strong);
     border-radius: 0.6rem; background: var(--surface-2); color: var(--ink); font: inherit; font-weight: 650; cursor: pointer;
   }
-  .card h3 { font-size: 1.05rem; }
-  .card p { font-size: 1rem; }
-  .card-pie { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-block-start: 0.2rem; }
-  .card-pie .push { margin-inline-start: auto; }
-  .insignia { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.55rem; border-radius: 0.35rem; }
-  .card-oficial { background: var(--oficial-bg); border: 2px solid var(--oficial-line); }
-  .card-oficial .insignia { background: var(--azul); color: var(--on-brand); }
-  .card-prensa .insignia { background: var(--surface-2); border: 1px solid var(--line); color: var(--ink); }
-  .card-vecinal { background: var(--vecinal-bg); }
-  .card-vecinal .insignia { background: var(--ojo-bg); border: 1px solid var(--ojo-line); color: var(--ink); }
-  .card.antiguo { opacity: 0.72; }
-  .tiempo { font-size: 0.85rem; color: var(--ink-soft); }
+
+  /* Tarjeta destacada (portada y primera noticia oficial): degradado de la marca, texto blanco (≥ 6:1) */
+  .hero {
+    position: relative; display: grid; gap: 0.5rem; margin-block: 0.7rem; padding: 1rem; border-radius: 1.1rem;
+    background: linear-gradient(135deg, var(--azul), var(--morado)); color: #fff;
+  }
+  .hero h2, .hero h3 { margin: 0; font-size: 1.25rem; line-height: 1.2; }
+  .hero p { color: #fff; }
+  .hero-cab { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+  .hero-vence { font-size: 0.85rem; font-weight: 650; }
+  .hero-lista { margin: 0; padding-inline-start: 1.1rem; display: grid; gap: 0.35rem; font-weight: 600; font-size: 0.97rem; }
+  .hero-meta { font-size: 0.82rem; color: #ECE7FB; }
+  .hero-acciones { flex-wrap: nowrap; }
+  .hero-acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-block-start: 0.2rem; }
+  .hero-enlace { color: inherit; text-decoration: none; }
+  .hero-enlace::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .hero:has(.hero-enlace:focus-visible) { outline: 3px solid var(--focus); outline-offset: 3px; }
+  .hero-nota { grid-column: 1 / -1; margin-block: 0; }
+  .insignia { justify-self: start; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.55rem; border-radius: 0.35rem; }
+  .insignia-hero { background: var(--amarillo); color: var(--tinta-sobre-color); }
+  .btn-hero { background: #fff; border-color: #fff; color: var(--morado); }
+  .btn-hero:hover { background: #F1EEFA; }
+  .btn-hero-suave { background: transparent; color: #fff; }
+  .btn-hero-suave:hover { background: rgb(255 255 255 / 0.16); }
+
+  .seccion { margin-block-start: 1.4rem; }
+  .seccion-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin-block-end: 0.4rem; }
+  .seccion-cab h2 { margin: 0; }
+  .seccion-cab a { font-weight: 650; min-block-size: var(--target); display: inline-flex; align-items: center; }
+
+  /* Fila que se desplaza en horizontal (fuentes, filtros): scroll nativo, sin botones */
+  .fila { display: flex; gap: 0.75rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding-block: 0.4rem; scrollbar-width: thin; }
+  .fila > * { flex: none; scroll-snap-align: start; }
+  .fila:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .chips.fila { flex-wrap: nowrap; gap: 0.5rem; }
+  .fuente-av { display: grid; justify-items: center; gap: 0.3rem; inline-size: 4.8rem; text-decoration: none; color: var(--ink); font-size: 0.78rem; font-weight: 650; text-align: center; }
+  .av { display: grid; place-items: center; inline-size: 3.5rem; block-size: 3.5rem; border-radius: 50%; font-weight: 800; font-size: 1rem; letter-spacing: 0.02em; }
+  .av-morado { background: var(--morado); color: #fff; }
+  .av-azul { background: var(--azul); color: #fff; }
+  .av-verde { background: var(--verde); color: var(--tinta-sobre-color); }
+  .av-amarillo { background: var(--amarillo); color: var(--tinta-sobre-color); }
+
+  .busqueda { position: relative; display: flex; align-items: center; margin-block: 0.8rem 0.2rem; }
+  .busqueda .ico { position: absolute; inset-inline-start: 1rem; color: var(--ink-soft); pointer-events: none; }
+  .busqueda input { border-radius: 99rem; padding-inline-start: 2.8rem; }
+
+  /* Nota compacta: miniatura a la izquierda; categoría, titular y fuente a la derecha */
+  .nota {
+    position: relative; display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.4rem 0.8rem; align-items: start;
+    padding: 0.75rem; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line);
+  }
+  .nota-oficial { border-inline-start: 4px solid var(--oficial-line); }
+  .nota-vecinal { background: var(--vecinal-bg); border-inline-start: 4px solid var(--amarillo); }
+  .nota.antiguo { opacity: 0.72; }
+  .miniatura { display: grid; place-items: center; inline-size: 5.5rem; block-size: 5.5rem; border-radius: 0.7rem; overflow: hidden; background: var(--surface-2); color: var(--brand); }
+  .miniatura .ico { inline-size: 2rem; block-size: 2rem; }
+  .miniatura img.media { inline-size: 100%; block-size: 100%; aspect-ratio: auto; border-radius: 0; }
+  .nota-oficial .miniatura { background: var(--oficial-bg); color: var(--oficial-line); }
+  .nota-vecinal .miniatura { background: var(--amarillo); color: var(--tinta-sobre-color); }
+  .nota-cuerpo { display: grid; gap: 0.25rem; min-inline-size: 0; align-content: start; }
+  .nota-cat { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brand); }
+  .nota-titulo { font-size: 1.02rem; line-height: 1.3; }
+  .nota-enlace { color: inherit; text-decoration: none; }
+  .nota-enlace::after { content: ""; position: absolute; inset: 0; border-radius: inherit; } /* toda la nota es tocable */
+  .nota-enlace:focus-visible { outline: none; }
+  .nota:has(.nota-enlace:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .nota-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--ink-soft); }
+  .nota-meta .acc-compartir { margin-inline-start: auto; margin-block: -0.55rem; position: relative; z-index: 1; }
+  .nota-votos { grid-column: 1 / -1; display: grid; gap: 0.4rem; position: relative; z-index: 1; }
   .demo-tag { font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); border: 1.5px dashed var(--ink-soft); border-radius: 0.35rem; padding: 0.05rem 0.45rem; }
   .votos { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
   .votos .btn { flex-direction: column; gap: 0; padding-block: 0.45rem; line-height: 1.2; }
   .votos .cuenta { font-size: 0.85rem; font-weight: 500; opacity: 0.9; }
   .estado-voto { font-size: 0.88rem; color: var(--ink-soft); }
-  @container card (inline-size > 26rem) { .card-pie .push { margin-inline-start: 0; } }
+
+  /* Detalle de una nota (pantalla completa dentro de la app; atrás = botón o gesto del sistema) */
+  .detalle-barra { display: flex; align-items: center; gap: 0.6rem; margin-block-end: 0.75rem; }
+  .detalle-ico { display: grid; place-items: center; block-size: 9rem; border-radius: var(--r); background: var(--surface-2); color: var(--brand); }
+  .detalle-ico .ico { inline-size: 3.5rem; block-size: 3.5rem; }
+  .detalle-oficial { background: linear-gradient(135deg, var(--azul), var(--morado)); color: #fff; }
+  .detalle-vecinal { background: var(--amarillo); color: var(--tinta-sobre-color); }
+  #detalle h1 { margin-block: 0.9rem 0.4rem; font-size: 1.5rem; }
+  #detalle p { margin-block: 0.6rem; }
+  #detalle .nota-meta { margin-block: 0.2rem 0.8rem; }
 
   .fab {
     position: fixed; z-index: 25;

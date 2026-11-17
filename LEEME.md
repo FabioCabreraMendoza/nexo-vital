@@ -16,8 +16,8 @@ node tools/servir.mjs          # http://localhost:5173
 
 | Pestaña | Qué hace |
 |---|---|
-| Inicio | Ficha única con fuente y fecha: riesgo que sigue (primero y abierto), qué falta, qué funciona, a quién escuchar, y obras por componente. Muestra versión, fecha y vencimiento. Compartir e imprimir. |
-| Novedades | Tarjetas estilo Waze: **oficial** (resaltado), **prensa** (recopilada) y **vecinos** (botones “Sigue ahí” / “Ya no está” con contador). Botón *Reportar*. |
+| Inicio | Portada estilo noticias: tarjeta destacada con la ficha (resumen, vencimiento, compartir e imprimir), riesgo que sigue (siempre visible, justo debajo), fila de fuentes oficiales, últimas novedades, qué falta, qué funciona, a quién escuchar y obras por componente. |
+| Novedades | Búsqueda, filtros en fila (Todo, Oficial, Prensa, Vecinos), noticia oficial destacada y notas compactas con miniatura. **Vecinos** con “Sigue ahí” / “Ya no está”. Tocar una nota abre su detalle (`#nota/id`, con botón atrás y enlace directo). Botón *Reportar*. |
 | ¿Es oficial? | Compara un mensaje con avisos oficiales conocidos. Nunca dice “falso”: dice qué encontró, pistas a revisar y dónde comprobar. |
 | NubIA | Chat con RAG local (BM25) sobre todo lo recopilado. Cita fuente y fecha. Si no encuentra, lo dice. |
 | Fuentes | Enlaces oficiales, teléfonos, instalar app, límites de la app. |
