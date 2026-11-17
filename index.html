@@ -38,6 +38,9 @@
       <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5v.01"/></symbol>
       <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
       <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6-5.5 6-11a6 6 0 0 0-12 0c0 5.5 6 11 6 11z"/><circle cx="12" cy="10" r="2.2"/></symbol>
       <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></symbol>
     </defs>
   </svg>
@@ -71,32 +74,54 @@
 
   <main id="contenido" tabindex="-1">
 
-    <!-- ===== INICIO: ficha única ===== -->
+    <!-- ===== INICIO: portada estilo noticias ===== -->
     <section id="inicio" class="panel" aria-labelledby="t-inicio" hidden>
-      <h1 id="t-inicio" tabindex="-1">Ficha de las quebradas San Ildefonso y San Carlos</h1>
-      <p class="meta" id="ficha-meta">Cargando…</p>
+      <h1 id="t-inicio" tabindex="-1" class="visualmente-oculto">Inicio: ficha de las quebradas San Ildefonso y San Carlos</h1>
 
-      <div class="resumen" id="ficha-resumen"></div>
+      <article class="hero hero-ficha" aria-labelledby="t-hero">
+        <div class="hero-cab"><span class="insignia insignia-hero">Ficha vigente</span><span class="hero-vence" id="hero-vence"></span></div>
+        <h2 id="t-hero">Quebradas San Ildefonso y San Carlos</h2>
+        <ul class="hero-lista" id="ficha-resumen"></ul>
+        <div class="hero-acciones">
+          <button type="button" class="btn btn-hero" id="btn-compartir-ficha"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>Compartir ficha</button>
+          <button type="button" class="btn btn-icono btn-hero btn-hero-suave" id="btn-imprimir" aria-label="Imprimir la ficha"><svg class="ico" aria-hidden="true"><use href="#i-print"/></svg></button>
+        </div>
+      </article>
 
-      <div class="acciones-fila">
-        <button type="button" class="btn btn-primario" id="btn-compartir-ficha"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>Compartir ficha</button>
-        <button type="button" class="btn" id="btn-imprimir"><svg class="ico" aria-hidden="true"><use href="#i-print"/></svg>Imprimir</button>
-      </div>
+      <div id="bloque-riesgo"></div>
+
+      <section class="seccion" aria-labelledby="t-fuentes-fila">
+        <div class="seccion-cab"><h2 id="t-fuentes-fila">Fuentes oficiales</h2><a href="#fuentes">Ver todas</a></div>
+        <div id="fuentes-fila" class="fila" tabindex="0" role="group" aria-label="Fuentes oficiales: desplaza para ver más"></div>
+      </section>
+
+
+      <section class="seccion" aria-labelledby="t-ultimas">
+        <div class="seccion-cab"><h2 id="t-ultimas">Últimas novedades</h2><a href="#novedades">Ver más</a></div>
+        <div id="home-novedades" class="feed feed-corto"></div>
+      </section>
 
       <div id="ficha-bloques"></div>
 
-      <section aria-labelledby="t-obras">
-        <h2 id="t-obras">Obras por componente</h2>
+      <section class="seccion" aria-labelledby="t-obras">
+        <div class="seccion-cab"><h2 id="t-obras">Obras por componente</h2></div>
         <p class="sub">Estado, fecha y fuente de cada parte. “Terminado” no quiere decir que el riesgo desapareció.</p>
         <ul id="obras-lista" class="lista-limpia"></ul>
       </section>
+
+      <p class="meta seccion" id="ficha-meta">Cargando…</p>
     </section>
 
-    <!-- ===== NOVEDADES: tarjetas estilo Waze ===== -->
+    <!-- ===== NOVEDADES: noticias de la zona ===== -->
     <section id="novedades" class="panel" aria-labelledby="t-novedades" hidden>
       <h1 id="t-novedades" tabindex="-1">Novedades</h1>
       <p class="meta" id="novedades-meta"></p>
-      <div class="chips" role="group" aria-label="Filtrar por origen" id="filtros">
+      <form class="busqueda" role="search" id="form-busqueda">
+        <label for="busqueda" class="visualmente-oculto">Buscar en las novedades</label>
+        <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="busqueda" type="search" placeholder="Buscar: quebrada, dique, lluvia…" enterkeyhint="search" autocomplete="off" maxlength="60">
+      </form>
+      <div class="chips fila" role="group" aria-label="Filtrar por origen" id="filtros">
         <button type="button" class="chip-btn" data-f="todo" aria-pressed="true">Todo</button>
         <button type="button" class="chip-btn" data-f="oficial" aria-pressed="false">Oficial</button>
         <button type="button" class="chip-btn" data-f="prensa" aria-pressed="false">Prensa</button>
@@ -105,6 +130,9 @@
       <div id="feed" class="feed" aria-live="polite"></div>
       <button type="button" class="fab" id="btn-reportar"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>Reportar</button>
     </section>
+
+    <!-- ===== DETALLE de una nota (se llena desde JS; ruta #nota/id) ===== -->
+    <section id="detalle" class="panel panel-angosto" aria-labelledby="t-detalle" hidden></section>
 
     <!-- ===== VERIFICAR ===== -->
     <section id="verificar" class="panel panel-angosto" aria-labelledby="t-verificar" hidden>

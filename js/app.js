@@ -3,12 +3,14 @@ import { $, $$, h, icono, urlSegura, imagenSegura, reducirImagen, fmtFecha, fmtF
 import { abrirCompartir } from "./compartir.js";
 import { analizar, pintarResultado, EJEMPLOS } from "./verificar.js";
 import { construirCorpus, Indice, responder, SUGERENCIAS } from "./rag.js";
+import { norm } from "./texto.js";
 
 const TABS = ["inicio", "novedades", "verificar", "nubia", "fuentes"];
+const PANELES = [...TABS, "detalle"]; // el detalle de una nota (#nota/id) no es una pestaña
 const TIPOS = { lluvia: "Lluvia fuerte", cauce: "Cauce", calle: "Calle", servicios: "Agua o luz", otro: "Otro" };
 const SEIS_HORAS = 6 * 3600e3;
 
-const S = { ficha: null, prensa: null, vecinal: null, reportes: [], votos: almacen.get("votos", {}), filtro: "todo", indice: null };
+const S = { ficha: null, prensa: null, vecinal: null, reportes: [], votos: almacen.get("votos", {}), filtro: "todo", busqueda: "", indice: null, navegado: false, scrollNovedades: null };
 
 /* ================= Datos ================= */
 async function cargarJSON(ruta) {
@@ -54,15 +56,17 @@ function resaltar(id) {
   el.classList.add("resaltado");
 }
 
-function mostrarTab(tab) {
+function mostrarTab(tab, activa = tab) {
   const cambiar = () => {
-    for (const t of TABS) $(`#${t}`).hidden = t !== tab;
+    for (const p of PANELES) $(`#${p}`).hidden = p !== tab;
     for (const a of $$(".tabbar a")) {
-      if (a.dataset.tab === tab) a.setAttribute("aria-current", "page");
+      if (a.dataset.tab === activa) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     }
     if (tab === "novedades") pintarFeed(); // refresca "hace X min" al entrar
-    if (anclaPendiente) { resaltar(anclaPendiente); anclaPendiente = null; } else window.scrollTo(0, 0);
+    if (anclaPendiente) { resaltar(anclaPendiente); anclaPendiente = null; }
+    else if (tab === "novedades" && S.scrollNovedades != null) { window.scrollTo(0, S.scrollNovedades); S.scrollNovedades = null; } // vuelta desde un detalle
+    else window.scrollTo(0, 0);
     $(`#t-${tab}`)?.focus({ preventScroll: true });
   };
   if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -73,9 +77,24 @@ function mostrarTab(tab) {
   } else cambiar();
 }
 
+function volver() {
+  if (S.navegado) history.back(); // mantiene la pila del navegador en sincronía
+  else location.hash = "novedades"; // entró directo al detalle (enlace compartido)
+}
+
 function enRuta() {
-  const tab = location.hash.slice(1);
-  mostrarTab(TABS.includes(tab) ? tab : "inicio");
+  const ruta = location.hash.slice(1);
+  if (ruta.startsWith("nota/")) {
+    let id = ruta.slice(5);
+    try { id = decodeURIComponent(id); } catch { /* id mal formado: no se encontrará */ }
+    const item = todosLosItems().find((i) => i.id === id);
+    if (!item) return irA("novedades"); // nota que ya no existe (por ejemplo, un reporte antiguo)
+    if (!$("#novedades").hidden) S.scrollNovedades = window.scrollY;
+    pintarDetalle(item);
+    return mostrarTab("detalle", "novedades");
+  }
+  if (ruta !== "novedades") S.scrollNovedades = null;
+  mostrarTab(TABS.includes(ruta) ? ruta : "inicio");
 }
 
 /* ================= Inicio: ficha ================= */
@@ -98,22 +117,30 @@ function bloque(titulo, ico, items, clase = "") {
   );
 }
 
+// Iniciales para el círculo de una fuente: "MPT" para varias palabras, dos letras para una sola.
+const iniciales = (n) => {
+  const p = n.split(/\s+/).filter((w) => !/^(de|del|la|el)$/i.test(w));
+  return (p.length > 1 ? p.map((w) => w[0]).join("") : n.slice(0, 2)).toUpperCase().slice(0, 3);
+};
+const COLORES_AV = ["morado", "azul", "verde", "amarillo"];
+const avatarFuente = (s, i) => h("a", { class: "fuente-av", href: urlSegura(s.url), target: "_blank", rel: "noopener noreferrer", "aria-label": `${s.nombre} (se abre en otra pestaña)` },
+  h("span", { class: `av av-${COLORES_AV[i % COLORES_AV.length]}`, "aria-hidden": "true", text: iniciales(s.nombre) }),
+  h("span", { "aria-hidden": "true", text: s.nombre.length > 12 ? iniciales(s.nombre) : s.nombre }));
+
 function pintarFicha() {
   const f = S.ficha;
   if (!f) {
     $("#ficha-meta").textContent = "No se pudo cargar la ficha. Conéctate una vez para guardarla.";
     return;
   }
-  $("#ficha-meta").textContent = `Versión ${f.version} · actualizada ${fmtFecha(f.actualizado)} · vence ${fmtFecha(f.vence)} · ${f.territorio}. ${f.validacion}`;
+  $("#hero-vence").textContent = `Vence ${fmtFecha(f.vence)}`;
+  $("#ficha-meta").textContent = `Versión ${f.version} · actualizada ${fmtFecha(f.actualizado)} · ${f.territorio}. ${f.validacion}`;
+  $("#ficha-resumen").replaceChildren(...(f.resumen ?? []).map((t) => h("li", { text: t })));
+  $("#fuentes-fila").replaceChildren(...f.fuentes_oficiales.map(avatarFuente));
 
-  $("#ficha-resumen").replaceChildren(
-    h("h2", { text: "En pocas palabras" }),
-    h("ul", {}, (f.resumen ?? []).map((t) => h("li", { text: t }))),
-  );
-
-  // El riesgo residual va primero y abierto: no depende de un clic ni de un scroll largo.
+  // El riesgo residual va justo debajo de la portada, abierto: no depende de un clic ni de un scroll largo.
+  $("#bloque-riesgo").replaceChildren(bloque("Lo que sigue siendo un riesgo", "alert", f.bloques.riesgo, "bloque-riesgo"));
   $("#ficha-bloques").replaceChildren(
-    bloque("Lo que sigue siendo un riesgo", "alert", f.bloques.riesgo, "bloque-riesgo"),
     bloque("Qué falta", "feed", f.bloques.falta),
     bloque("Qué funciona hoy", "check", f.bloques.funciona),
     bloque("A quién escuchar en una emergencia", "phone", f.bloques.escuchar),
@@ -153,8 +180,8 @@ function textoFicha() {
   };
 }
 
-/* ================= Novedades: tarjetas ================= */
-function itemsFeed() {
+/* ================= Novedades: notas estilo noticias ================= */
+function todosLosItems() {
   const items = [];
   for (const a of S.ficha?.avisos_oficiales ?? []) {
     const ts = /^\d{4}-\d{2}-\d{2}$/.test(a.fecha) ? Date.parse(`${a.fecha}T12:00:00-05:00`) : 0;
@@ -162,13 +189,36 @@ function itemsFeed() {
   }
   for (const p of S.prensa?.items ?? []) items.push({ kind: "prensa", id: p.id, ts: Date.parse(p.fecha), p });
   for (const r of S.reportes) items.push({ kind: "vecinal", id: r.id, ts: r.ts, r });
-  items.sort((x, y) => y.ts - x.ts);
-  // El aviso oficial más reciente se fija arriba (en "Todo"); luego, lo más nuevo primero.
-  if (S.filtro === "todo") {
-    const fijos = items.filter((i) => i.kind === "oficial").slice(0, 1);
-    return [...fijos, ...items.filter((i) => !fijos.includes(i))];
+  return items.sort((x, y) => y.ts - x.ts);
+}
+
+/** Datos comunes para pintar un item como nota. */
+function info(item) {
+  if (item.kind === "oficial") {
+    const a = item.a;
+    return { cat: "Oficial", titulo: a.titulo, resumen: a.resumen, meta: `${a.entidad} · ${fmtFecha(a.fecha)}`, imagen: null, alt: "", ico: "verify" };
   }
-  return items.filter((i) => i.kind === S.filtro);
+  if (item.kind === "prensa") {
+    const p = item.p;
+    return { cat: "Prensa", titulo: p.titulo, meta: `${p.fuente} · ${haceTiempo(item.ts)}`, imagen: p.imagen, alt: "", ico: "feed" };
+  }
+  const r = item.r;
+  return { cat: `Vecinos · ${TIPOS[r.tipo] ?? "Reporte"}`, titulo: r.texto, meta: `${r.zona} · ${haceTiempo(r.ts)}`, imagen: r.imagen, alt: `Foto del reporte en ${r.zona}`, ico: "pin" };
+}
+
+function itemsFeed() {
+  let items = todosLosItems();
+  const palabras = norm(S.busqueda).split(" ").filter(Boolean);
+  if (palabras.length) {
+    items = items.filter((i) => {
+      const d = info(i);
+      const t = norm(`${d.titulo} ${d.resumen ?? ""} ${d.meta}`);
+      return palabras.every((w) => t.includes(w));
+    });
+  }
+  if (S.filtro !== "todo") return items.filter((i) => i.kind === S.filtro);
+  const fijo = items.find((i) => i.kind === "oficial"); // lo oficial más reciente va primero
+  return fijo ? [fijo, ...items.filter((i) => i !== fijo)] : items;
 }
 
 function votosDe(r) {
@@ -182,10 +232,6 @@ function estadoVotos(v) {
   if (v.ya_no / total >= 0.6) return `${v.ya_no} de ${total} vecinos dicen que ya no está.`;
   if (v.sigue / total >= 0.6) return `${v.sigue} de ${total} vecinos dicen que sigue ahí.`;
   return `Opiniones divididas (${total} votos).`;
-}
-
-function accionesTarjeta(item) {
-  return h("button", { type: "button", class: "btn btn-sm push", onclick: () => abrirCompartir(compartible(item)) }, icono("share"), "Compartir");
 }
 
 function compartible(item) {
@@ -202,69 +248,90 @@ function compartible(item) {
   };
 }
 
-// Imagen opcional de una tarjeta (primer hijo, como pide el patrón de tarjetas). Devuelve null si el origen no es seguro.
+// Imagen opcional. Devuelve null si el origen no es seguro.
 const foto = (src, alt) => { const u = imagenSegura(src); return u ? h("img", { class: "media", src: u, alt, loading: "lazy", decoding: "async" }) : null; };
 
-function tarjeta(item) {
-  if (item.kind === "oficial") {
-    const a = item.a;
-    const u = urlSegura(a.url);
-    return h("article", { class: "card card-oficial", id: a.id },
-      h("div", { class: "card-cab" }, h("span", { class: "insignia", text: "Oficial" }), h("span", { class: "tiempo", text: fmtFecha(a.fecha) })),
-      h("h3", { text: a.titulo }),
-      h("p", { text: a.resumen }),
-      h("p", { class: "alcance", text: `${a.entidad} · ${a.alcance}` }),
-      h("div", { class: "card-pie" },
-        u ? h("a", { class: "btn btn-sm", href: u, target: "_blank", rel: "noopener noreferrer" }, icono("out"), "Ver fuente") : null,
-        accionesTarjeta(item)),
-    );
-  }
-  if (item.kind === "prensa") {
-    const p = item.p;
-    const u = urlSegura(p.url);
-    return h("article", { class: "card card-prensa", id: p.id },
-      foto(p.imagen, ""),
-      h("div", { class: "card-cab" }, h("span", { class: "insignia", text: "Prensa" }), h("span", { class: "tiempo", text: `${fmtFecha(p.fecha)} · ${haceTiempo(item.ts)}` })),
-      h("h3", { text: p.titulo }),
-      h("p", { class: "fuente" }, h("b", { text: p.fuente }), " · titular recopilado, no verificado por NubIA", p.imagen && p.imagen_credito ? ` · Foto: ${p.imagen_credito}` : ""),
-      h("div", { class: "card-pie" },
-        u ? h("a", { class: "btn btn-sm", href: u, target: "_blank", rel: "noopener noreferrer" }, icono("out"), "Leer en el medio") : null,
-        accionesTarjeta(item)),
-    );
-  }
-  const r = item.r;
+const hrefNota = (id) => `#nota/${encodeURIComponent(id)}`;
+
+function bloqueVotos(r) {
   const v = votosDe(r);
   const viejo = Date.now() - r.ts > SEIS_HORAS;
-  const btnVoto = (clave, texto) =>
-    h("button", {
-      type: "button", class: "btn", "aria-pressed": String(v.mio === clave),
-      onclick: () => votar(r.id, clave),
-    }, h("span", { text: texto }), h("span", { class: "cuenta", text: `${clave === "sigue" ? v.sigue : v.ya_no} ${(clave === "sigue" ? v.sigue : v.ya_no) === 1 ? "vecino" : "vecinos"}` }));
-  return h("article", { class: `card card-vecinal${viejo ? " antiguo" : ""}`, id: r.id },
-    foto(r.imagen, `Foto del reporte en ${r.zona}`),
-    h("div", { class: "card-cab" },
-      h("span", { class: "insignia", text: `Vecinos · ${TIPOS[r.tipo] ?? "Reporte"}` }),
-      h("span", { class: "tiempo", text: haceTiempo(r.ts) })),
-    h("h3", { text: r.zona }),
-    h("p", { text: r.texto }),
-    h("p", { class: "fuente" },
-      r.demo ? h("span", { class: "demo-tag", text: "Ejemplo de demostración" }) : null, r.demo ? " " : null,
-      "Sin verificar", viejo ? " · reporte antiguo" : ""),
-    viejo ? null : h("div", { class: "votos", role: "group", "aria-label": "¿Sigue ahí?" }, btnVoto("sigue", "Sigue ahí"), btnVoto("ya_no", "Ya no está")),
-    h("p", { class: "estado-voto", text: estadoVotos(v) }),
-    h("div", { class: "card-pie" }, accionesTarjeta(item)),
+  const btn = (clave, texto) => {
+    const n = clave === "sigue" ? v.sigue : v.ya_no;
+    return h("button", { type: "button", class: "btn", "aria-pressed": String(v.mio === clave), onclick: () => votar(r.id, clave) },
+      h("span", { text: texto }), h("span", { class: "cuenta", text: `${n} ${n === 1 ? "vecino" : "vecinos"}` }));
+  };
+  return h("div", { class: "nota-votos" },
+    viejo ? null : h("div", { class: "votos", role: "group", "aria-label": "¿Sigue ahí?" }, btn("sigue", "Sigue ahí"), btn("ya_no", "Ya no está")),
+    h("p", { class: "estado-voto", text: estadoVotos(v) }));
+}
+
+/** Nota compacta. `id: false` en la portada, para no repetir ids con la lista de Novedades. */
+function nota(item, { votos = true, id = true } = {}) {
+  const d = info(item);
+  const viejo = item.kind === "vecinal" && Date.now() - item.r.ts > SEIS_HORAS;
+  return h("article", { class: `nota nota-${item.kind}${viejo ? " antiguo" : ""}`, id: id ? item.id : null },
+    h("div", { class: "miniatura" }, foto(d.imagen, d.alt) ?? icono(d.ico)),
+    h("div", { class: "nota-cuerpo" },
+      h("p", { class: "nota-cat", text: d.cat }),
+      h("h3", { class: "nota-titulo" }, h("a", { class: "nota-enlace", href: hrefNota(item.id), text: d.titulo })),
+      h("div", { class: "nota-meta" },
+        h("span", { text: d.meta }),
+        item.kind === "vecinal" && item.r.demo ? h("span", { class: "demo-tag", text: "Demo" }) : null,
+        h("button", { type: "button", class: "btn btn-icono btn-plano acc-compartir", "aria-label": `Compartir: ${d.titulo}`, onclick: () => abrirCompartir(compartible(item)) }, icono("share")))),
+    item.kind === "vecinal" && votos ? bloqueVotos(item.r) : null,
+  );
+}
+
+function heroNota(item) {
+  const d = info(item);
+  return h("article", { class: "hero hero-nota", id: item.id },
+    h("div", { class: "hero-cab" }, h("span", { class: "insignia insignia-hero", text: "Oficial · lo más reciente" })),
+    h("h3", {}, h("a", { class: "hero-enlace", href: hrefNota(item.id), text: d.titulo })),
+    h("p", { text: d.resumen }),
+    h("p", { class: "hero-meta", text: d.meta }),
   );
 }
 
 function pintarFeed() {
-  const feed = $("#feed");
   const items = itemsFeed();
-  feed.replaceChildren(...(items.length ? items.map(tarjeta) : [h("p", { class: "vacio", text: "No hay tarjetas en esta categoría todavía." })]));
+  const hero = !S.busqueda && items[0]?.kind === "oficial" ? items[0] : null;
+  const resto = hero ? items.slice(1) : items;
+  const vacio = h("p", { class: "vacio", text: S.busqueda ? `Sin resultados para “${S.busqueda}”.` : "No hay novedades en esta categoría todavía." });
+  $("#feed").replaceChildren(...(hero ? [heroNota(hero)] : []), ...(resto.length || hero ? resto.map((i) => nota(i)) : [vacio]));
+  $("#home-novedades").replaceChildren(...todosLosItems().slice(0, 3).map((i) => nota(i, { votos: false, id: false })));
   const g = S.prensa?.generadoEn;
   $("#novedades-meta").textContent = g
     ? `Prensa recopilada el ${fmtFechaHora(Date.parse(g))}. Los reportes de vecinos no están verificados.`
     : "Sin datos de prensa guardados. Conéctate una vez para recopilarlos.";
   for (const b of $$("#filtros .chip-btn")) b.setAttribute("aria-pressed", String(b.dataset.f === S.filtro));
+}
+
+/** Pantalla de detalle (ruta #nota/id). */
+function pintarDetalle(item) {
+  const d = info(item);
+  const portada = foto(d.imagen, d.alt) ?? h("div", { class: `detalle-ico detalle-${item.kind}`, "aria-hidden": "true" }, icono(d.ico));
+  const u = item.kind === "oficial" ? urlSegura(item.a.url) : item.kind === "prensa" ? urlSegura(item.p.url) : null;
+  const cuerpo = item.kind === "oficial"
+    ? [h("p", { text: item.a.resumen }), h("p", { class: "alcance", text: `Alcance: ${item.a.alcance}` })]
+    : item.kind === "prensa"
+      ? [h("p", { text: "Titular recopilado por NubIA. No verificamos el contenido de la nota: léela completa en el medio." }),
+        item.p.imagen && item.p.imagen_credito ? h("p", { class: "fuente", text: `Foto: ${item.p.imagen_credito}` }) : null]
+      : [h("p", { text: `${item.r.zona}. Reporte de vecinos, sin verificar.` }),
+        item.r.demo ? h("p", {}, h("span", { class: "demo-tag", text: "Ejemplo de demostración" })) : null,
+        bloqueVotos(item.r)];
+  $("#detalle").replaceChildren(
+    h("div", { class: "detalle-barra" },
+      h("button", { type: "button", class: "btn btn-icono", "aria-label": "Volver a Novedades", onclick: volver }, icono("back")),
+      h("p", { class: "nota-cat", text: d.cat })),
+    portada,
+    h("h1", { id: "t-detalle", tabindex: "-1", text: d.titulo }),
+    h("p", { class: "nota-meta" }, h("span", { text: d.meta })),
+    ...cuerpo,
+    h("div", { class: "acciones-fila" },
+      u ? h("a", { class: "btn btn-primario", href: u, target: "_blank", rel: "noopener noreferrer" }, icono("out"), item.kind === "prensa" ? "Leer en el medio" : "Ver fuente") : null,
+      h("button", { type: "button", class: "btn", onclick: () => abrirCompartir(compartible(item)) }, icono("share"), "Compartir")),
+  );
 }
 
 function votar(id, clave) {
@@ -273,6 +340,8 @@ function votar(id, clave) {
   almacen.set("votos", S.votos);
   const y = window.scrollY;
   pintarFeed();
+  const abierto = !$("#detalle").hidden && todosLosItems().find((i) => i.id === id);
+  if (abierto) pintarDetalle(abierto);
   window.scrollTo(0, y);
 }
 
@@ -499,7 +568,9 @@ async function iniciar() {
   $("#btn-imprimir").addEventListener("click", () => print());
   $("#cerrar-compartir").addEventListener("click", () => $("#dlg-compartir").close());
 
-  addEventListener("hashchange", enRuta);
+  $("#form-busqueda").addEventListener("submit", (e) => e.preventDefault());
+  $("#busqueda").addEventListener("input", (e) => { S.busqueda = e.target.value.trim(); pintarFeed(); });
+  addEventListener("hashchange", () => { S.navegado = true; enRuta(); });
   enRuta();
   iniciarSW();
 }
